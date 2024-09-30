@@ -1,4 +1,5 @@
-# verzel
+# Verzel Challenges
+(assets/banner_verzel.png)
 
 A new Flutter project.
 
