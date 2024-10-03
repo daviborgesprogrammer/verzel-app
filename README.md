@@ -1,5 +1,5 @@
 # Verzel Challenges
-![image](assets/banner_verzel.png)
+![image](assets/readme/banner_verzel.png)
 
 ### Teste Prático Mobile Jr
 
@@ -40,5 +40,12 @@ tarefa;
 <u>**Diferenciais:**</u>
 - Fazer testes unitários dos componentes;
 
-**Ao final do desenvolvimento enviar o link do projeto no github para o email:**
-rafael@verzel.com.br e oliveirandouglas@gmail.com
+## 🎨 Layout Proposto
+<p align="left">
+  <img src="assets/readme/sign_up.png" width="200px">
+  <img src="assets/readme/sign_in.png" width="200px">
+  <img src="assets/readme/task_list.png" width="200px">
+  <img src="assets/readme/create_task.png" width="200px">
+  <img src="assets/readme/view_task.png" width="200px">
+  
+</p>
