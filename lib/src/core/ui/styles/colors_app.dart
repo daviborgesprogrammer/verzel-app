@@ -11,6 +11,7 @@ class ColorsApp {
   }
 
   Color get background => const Color(0XFFF4F8FB);
+  Color get backgroundDark => const Color(0XFFCFD8DC);
   Color get primaryLight => const Color(0XFF118C6D);
   Color get primary => const Color(0XFF007363);
   Color get primaryDark => const Color(0XFF004D40);

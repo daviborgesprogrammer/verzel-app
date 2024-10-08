@@ -12,6 +12,7 @@ class VerzelApp extends StatelessWidget {
     return MaterialApp(
       title: 'Verzel App',
       theme: ThemeConfig.theme,
+      initialRoute: '/signup',
       routes: {
         '/': (_) => const LoginPage(),
         '/signup': (_) => const SignUpPage(),

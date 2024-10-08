@@ -18,9 +18,9 @@ class LoginPage extends StatelessWidget {
           children: [
             const LogoText(title: 'Sign in'),
             const SizedBox(height: 72),
-            const VerzelTextField(title: 'Name', hint: 'John Doe'),
+            const VerzelTextField(title: 'Name', hint: 'Type your name'),
             const SizedBox(height: 16),
-            const VerzelTextField(title: 'Email', hint: 'email@mail.com'),
+            const VerzelTextField(title: 'Email', hint: 'Type your email'),
             const SizedBox(height: 4),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 15),
@@ -63,10 +63,10 @@ class LoginPage extends StatelessWidget {
                       style: context.textStyles.textBold
                           .copyWith(fontSize: 24, color: ColorsApp.i.primary),
                     ),
-                  )
+                  ),
                 ],
               ),
-            )
+            ),
           ],
         ),
       ),
