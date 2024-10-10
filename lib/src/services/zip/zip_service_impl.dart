@@ -1,6 +1,6 @@
 import '../../models/address_model.dart';
 import '../../repositories/zip_repository.dart';
-import './zip_service.dart';
+import 'zip_service.dart';
 
 class ZipServiceImpl implements ZipService {
   @override

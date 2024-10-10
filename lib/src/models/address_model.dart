@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 
 class Address {
@@ -44,5 +45,25 @@ class Address {
       neighborhood: map['bairro'] != null ? map['bairro'] as String : null,
       state: map['estado'] != null ? map['estado'] as String : null,
     );
+  }
+  Address copyWith({
+    ValueGetter<String?>? zipCode,
+    ValueGetter<String?>? publicPlace,
+    ValueGetter<String?>? neighborhood,
+    ValueGetter<String?>? state,
+    ValueGetter<String?>? number,
+  }) {
+    return Address(
+      zipCode: zipCode != null ? zipCode() : this.zipCode,
+      publicPlace: publicPlace != null ? publicPlace() : this.publicPlace,
+      neighborhood: neighborhood != null ? neighborhood() : this.neighborhood,
+      state: state != null ? state() : this.state,
+      number: number != null ? number() : this.number,
+    );
+  }
+
+  @override
+  String toString() {
+    return 'Address{zipCode=$zipCode, publicPlace=$publicPlace, neighborhood=$neighborhood, state=$state, number=$number}';
   }
 }

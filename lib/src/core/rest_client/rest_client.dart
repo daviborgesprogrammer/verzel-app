@@ -8,5 +8,14 @@ final class RestClient extends DioForNative {
             connectTimeout: const Duration(seconds: 10),
             receiveTimeout: const Duration(seconds: 60),
           ),
-        );
+        ) {
+    interceptors.add(
+      LogInterceptor(
+        requestBody: false,
+        responseBody: false,
+        requestHeader: false,
+        responseHeader: false,
+      ),
+    );
+  }
 }

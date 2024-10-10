@@ -16,12 +16,12 @@ mixin _$SignUpController on SignUpControllerBase, Store {
       (_$nameValidComputed ??= Computed<bool>(() => super.nameValid,
               name: 'SignUpControllerBase.nameValid'))
           .value;
-  Computed<bool>? _$cpfValidComputed;
+  Computed<bool>? _$emailValidComputed;
 
   @override
-  bool get cpfValid =>
-      (_$cpfValidComputed ??= Computed<bool>(() => super.cpfValid,
-              name: 'SignUpControllerBase.cpfValid'))
+  bool get emailValid =>
+      (_$emailValidComputed ??= Computed<bool>(() => super.emailValid,
+              name: 'SignUpControllerBase.emailValid'))
           .value;
   Computed<bool>? _$birthdateValidComputed;
 
@@ -30,12 +30,12 @@ mixin _$SignUpController on SignUpControllerBase, Store {
       (_$birthdateValidComputed ??= Computed<bool>(() => super.birthdateValid,
               name: 'SignUpControllerBase.birthdateValid'))
           .value;
-  Computed<bool>? _$emailValidComputed;
+  Computed<bool>? _$cpfValidComputed;
 
   @override
-  bool get emailValid =>
-      (_$emailValidComputed ??= Computed<bool>(() => super.emailValid,
-              name: 'SignUpControllerBase.emailValid'))
+  bool get cpfValid =>
+      (_$cpfValidComputed ??= Computed<bool>(() => super.cpfValid,
+              name: 'SignUpControllerBase.cpfValid'))
           .value;
   Computed<bool>? _$zipValidComputed;
 
@@ -435,9 +435,9 @@ password: ${password},
 retypePassword: ${retypePassword},
 showDatePicker: ${showDatePicker},
 nameValid: ${nameValid},
-cpfValid: ${cpfValid},
-birthdateValid: ${birthdateValid},
 emailValid: ${emailValid},
+birthdateValid: ${birthdateValid},
+cpfValid: ${cpfValid},
 zipValid: ${zipValid},
 numberValid: ${numberValid},
 passwordValid: ${passwordValid},

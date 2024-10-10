@@ -1,16 +1,14 @@
 import 'address_model.dart';
 
 class User {
-  String? firstName;
-  String? lastName;
+  String? name;
   String? cpf;
   String? birthdate;
   String? email;
   Address? address;
   String? password;
   User({
-    this.firstName,
-    this.lastName,
+    this.name,
     this.cpf,
     this.birthdate,
     this.email,
@@ -20,8 +18,7 @@ class User {
 
   Map<String, dynamic> toMap() {
     return <String, dynamic>{
-      'firstName': firstName,
-      'lastName': lastName,
+      'name': name,
       'cpf': cpf,
       'birthdate': birthdate,
       'email': email,
@@ -32,8 +29,7 @@ class User {
 
   factory User.fromMap(Map<String, dynamic> map) {
     return User(
-      firstName: map['firstName'] != null ? map['firstName'] as String : null,
-      lastName: map['lastName'] != null ? map['lastName'] as String : null,
+      name: map['name'] != null ? map['name'] as String : null,
       cpf: map['cpf'] != null ? map['cpf'] as String : null,
       birthdate: map['birthdate'] != null ? map['birthdate'] as String : null,
       email: map['email'] != null ? map['email'] as String : null,

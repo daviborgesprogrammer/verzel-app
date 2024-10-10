@@ -55,8 +55,9 @@ class VerzelTextField extends StatelessWidget {
           onTap: onTap,
           onChanged: onChanged,
           style: context.textStyles.textRegular.copyWith(
-              fontSize: 12,
-              color: readOnly ? ColorsApp.i.text : ColorsApp.i.textDark),
+            fontSize: 12,
+            color: readOnly ? ColorsApp.i.text : ColorsApp.i.textDark,
+          ),
           decoration: InputDecoration(
             hintText: hint,
             hintStyle: context.textStyles.textRegular

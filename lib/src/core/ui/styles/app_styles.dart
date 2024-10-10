@@ -21,7 +21,7 @@ class AppStyles {
   InputDecorationTheme get decorationInput => InputDecorationTheme(
         fillColor: ColorsApp.i.background,
         filled: true,
-        isDense: true,
+        isDense: false,
         contentPadding: const EdgeInsets.all(13),
         border: _defaultInputBorder,
         enabledBorder: _defaultInputBorder,

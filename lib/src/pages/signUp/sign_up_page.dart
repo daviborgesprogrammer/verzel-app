@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:intl/intl.dart';
-import 'package:scroll_date_picker/scroll_date_picker.dart';
 
 import '../../core/extensions/form_unfocus.dart';
 import '../../core/ui/size_extensions.dart';
@@ -13,8 +12,9 @@ import '../../core/widgets/loader.dart';
 import '../../core/widgets/logo_text.dart';
 import '../../core/widgets/messages.dart';
 import '../../core/widgets/verzel_text_field.dart';
-import '../../models/address_model.dart';
 import 'sign_up_controller.dart';
+import 'widgets/date_field.dart';
+import 'widgets/password_session.dart';
 
 class SignUpPage extends StatefulWidget {
   const SignUpPage({super.key});
@@ -25,12 +25,11 @@ class SignUpPage extends StatefulWidget {
 
 class _SignUpPageState extends State<SignUpPage> with Loader, Messages {
   final SignUpController controller = SignUpController();
-  DateTime _selectedDate = DateTime.now();
-  var dateFormat = DateFormat('MM/dd/yyyy');
   final dateEC = TextEditingController();
   final publicPlaceEC = TextEditingController();
   final neighborhoodEC = TextEditingController();
   final stateEC = TextEditingController();
+  var dateFormat = DateFormat('MM/dd/yyyy');
 
   @override
   void dispose() {
@@ -70,6 +69,32 @@ class _SignUpPageState extends State<SignUpPage> with Loader, Messages {
               const SizedBox(height: 8),
               Observer(
                 builder: (_) => VerzelTextField(
+                  title: 'Email',
+                  hint: 'Type your email',
+                  errorText: controller.emailError,
+                  onChanged: controller.setEmail,
+                  keyboardType: TextInputType.emailAddress,
+                  textInputAction: TextInputAction.next,
+                ),
+              ),
+              const SizedBox(height: 8),
+              Observer(
+                builder: (_) => DateField(
+                  controllerText: dateEC,
+                  title: 'Birthdate',
+                  hint: 'Select a date',
+                  readOnly: true,
+                  controller: controller,
+                  onTap: () {
+                    controller.setShowDatePicker(true);
+                    context.unfocus();
+                  },
+                  offstage: !controller.showDatePicker,
+                ),
+              ),
+              const SizedBox(height: 8),
+              Observer(
+                builder: (_) => VerzelTextField(
                   title: 'CPF',
                   hint: 'Type your CPF',
                   errorText: controller.cpfError,
@@ -80,91 +105,6 @@ class _SignUpPageState extends State<SignUpPage> with Loader, Messages {
                     FilteringTextInputFormatter.digitsOnly,
                     CpfInputFormatter(),
                   ],
-                ),
-              ),
-              const SizedBox(height: 8),
-              Observer(
-                builder: (_) => VerzelTextField(
-                  controller: dateEC,
-                  title: 'Birthdate',
-                  hint: 'Select a date',
-                  readOnly: true,
-                  errorText: controller.birthdateError,
-                  textInputAction: TextInputAction.next,
-                  onTap: () {
-                    controller.setShowDatePicker(true);
-                    context.unfocus();
-                  },
-                  suffixIcon: Icon(
-                    Icons.date_range,
-                    color: ColorsApp.i.primary,
-                  ),
-                ),
-              ),
-              Observer(
-                builder: (_) => Offstage(
-                  offstage: !controller.showDatePicker,
-                  child: Container(
-                    margin: const EdgeInsets.only(top: 16),
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(4),
-                      color: ColorsApp.i.backgroundDark,
-                    ),
-                    child: Column(
-                      children: [
-                        Container(
-                          padding: const EdgeInsets.only(top: 40),
-                          height: 250,
-                          child: ScrollDatePicker(
-                            maximumDate: DateTime.now()
-                                .subtract(const Duration(days: 12 * 365)),
-                            options: DatePickerOptions(
-                              backgroundColor: ColorsApp.i.backgroundDark,
-                            ),
-                            selectedDate: controller.birthdate != null
-                                ? dateFormat.parse(controller.birthdate!)
-                                : DateTime.now()
-                                    .subtract(const Duration(days: 12 * 365)),
-                            locale: const Locale('en'),
-                            onDateTimeChanged: (DateTime value) {
-                              _selectedDate = value;
-                            },
-                          ),
-                        ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.end,
-                          children: [
-                            TextButton(
-                              onPressed: () {
-                                controller.setShowDatePicker(false);
-                              },
-                              child: const Text('Cancel'),
-                            ),
-                            TextButton(
-                              onPressed: () {
-                                final date = dateFormat.format(_selectedDate);
-                                controller.setBirthdate(date);
-                                dateEC.text = date;
-                                controller.setShowDatePicker(false);
-                              },
-                              child: const Text('Ok'),
-                            ),
-                          ],
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-              ),
-              const SizedBox(height: 8),
-              Observer(
-                builder: (_) => VerzelTextField(
-                  title: 'Email',
-                  hint: 'Type your email',
-                  errorText: controller.emailError,
-                  onChanged: controller.setEmail,
-                  keyboardType: TextInputType.emailAddress,
-                  textInputAction: TextInputAction.next,
                 ),
               ),
               const SizedBox(height: 24),
@@ -181,13 +121,6 @@ class _SignUpPageState extends State<SignUpPage> with Loader, Messages {
                   errorText: controller.zipError,
                   onChanged: (value) async {
                     await controller.setZip(value);
-                    if (value.length >= 10) {
-                      final Address(:publicPlace, :neighborhood, :state) =
-                          controller.address!;
-                      publicPlaceEC.text = publicPlace ?? '';
-                      neighborhoodEC.text = neighborhood ?? '';
-                      stateEC.text = state ?? '';
-                    }
                   },
                   inputFormatters: [
                     FilteringTextInputFormatter.digitsOnly,
@@ -197,27 +130,30 @@ class _SignUpPageState extends State<SignUpPage> with Loader, Messages {
                   textInputAction: TextInputAction.next,
                 ),
               ),
-              const SizedBox(height: 8),
-              VerzelTextField(
-                controller: publicPlaceEC,
-                title: 'Public place',
-                hint: 'Public place',
-                readOnly: true,
+              Observer(
+                builder: (_) => controller.address == null ||
+                        controller.address?.zipCode == null
+                    ? const SizedBox()
+                    : Column(
+                        children: [
+                          const SizedBox(height: 8),
+                          Container(
+                            padding: const EdgeInsets.all(8),
+                            decoration: BoxDecoration(
+                              color: ColorsApp.i.backgroundDark,
+                            ),
+                            child: Text(
+                              '${controller.address?.publicPlace ?? ''}, ${controller.address?.neighborhood ?? ''}, ${controller.address?.state ?? ''}',
+                              style: context.textStyles.textBold.copyWith(
+                                fontSize: 12,
+                                color: ColorsApp.i.textDark,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
               ),
               const SizedBox(height: 8),
-              VerzelTextField(
-                controller: neighborhoodEC,
-                title: 'Neighborhood',
-                hint: 'Neighborhood',
-                readOnly: true,
-              ),
-              const SizedBox(height: 8),
-              VerzelTextField(
-                controller: stateEC,
-                title: 'State',
-                hint: 'State',
-                readOnly: true,
-              ),
               Observer(
                 builder: (_) => VerzelTextField(
                   title: 'Number',
@@ -228,43 +164,44 @@ class _SignUpPageState extends State<SignUpPage> with Loader, Messages {
                   textInputAction: TextInputAction.next,
                 ),
               ),
-              const SizedBox(height: 16),
-              Text(
-                'Authentication',
-                style: context.textStyles.textBold
-                    .copyWith(fontSize: 20, color: ColorsApp.i.primary),
-              ),
-              const SizedBox(height: 16),
-              Observer(
-                builder: (_) => VerzelTextField(
-                  title: 'Password',
-                  errorText: controller.passwordError,
-                  onChanged: controller.setEmail,
-                  keyboardType: TextInputType.text,
-                  textInputAction: TextInputAction.next,
-                  obscure: true,
-                ),
-              ),
-              const SizedBox(height: 8),
-              Observer(
-                builder: (_) => VerzelTextField(
-                  title: 'Retype password',
-                  errorText: controller.retypePasswordError,
-                  onChanged: controller.setRetypePass,
-                  keyboardType: TextInputType.text,
-                  textInputAction: TextInputAction.done,
-                  obscure: true,
-                ),
-              ),
+              PasswordSession(controller: controller),
               const SizedBox(height: 32),
-              SizedBox(
-                height: 56,
-                width: context.screenWidth,
-                child: GestureDetector(
-                  onTap: controller.invalidSendPressed,
-                  child: ElevatedButton(
-                    onPressed: controller.sendPressed,
-                    child: const Text('REGISTER'),
+              Observer(
+                builder: (_) => SizedBox(
+                  height: 56,
+                  width: context.screenWidth,
+                  child: GestureDetector(
+                    onTap: controller.invalidSendPressed,
+                    child: ElevatedButton(
+                      onPressed: controller.sendPressed,
+                      child: const Text('REGISTER'),
+                    ),
+                  ),
+                ),
+              ),
+              const SizedBox(height: 24),
+              GestureDetector(
+                onTap: () async {
+                  Navigator.of(context).pushReplacementNamed('/login');
+                },
+                child: Center(
+                  child: RichText(
+                    text: TextSpan(
+                      text: 'Already have an account? ',
+                      style: context.textStyles.textRegular.copyWith(
+                        color: ColorsApp.i.textDark,
+                        fontSize: 14,
+                      ),
+                      children: [
+                        TextSpan(
+                          text: 'Log in',
+                          style: context.textStyles.textBold.copyWith(
+                            color: ColorsApp.i.primaryLight,
+                            decoration: TextDecoration.underline,
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
                 ),
               ),
