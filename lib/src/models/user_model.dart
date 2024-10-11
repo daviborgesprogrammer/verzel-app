@@ -39,4 +39,9 @@ class User {
       password: map['password'] != null ? map['password'] as String : null,
     );
   }
+
+  @override
+  String toString() {
+    return 'User{name=$name, cpf=$cpf, birthdate=$birthdate, email=$email, address=$address, password=$password}';
+  }
 }

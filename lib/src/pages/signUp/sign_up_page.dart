@@ -15,6 +15,7 @@ import '../../core/widgets/verzel_text_field.dart';
 import 'sign_up_controller.dart';
 import 'widgets/date_field.dart';
 import 'widgets/password_session.dart';
+import 'package:mobx/mobx.dart';
 
 class SignUpPage extends StatefulWidget {
   const SignUpPage({super.key});
@@ -25,18 +26,42 @@ class SignUpPage extends StatefulWidget {
 
 class _SignUpPageState extends State<SignUpPage> with Loader, Messages {
   final SignUpController controller = SignUpController();
+  late final ReactionDisposer statusDisposer;
+
   final dateEC = TextEditingController();
-  final publicPlaceEC = TextEditingController();
-  final neighborhoodEC = TextEditingController();
-  final stateEC = TextEditingController();
   var dateFormat = DateFormat('MM/dd/yyyy');
+
+  @override
+  void initState() {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      statusDisposer = reaction((_) => controller.status, (status) {
+        switch (status) {
+          case SignUpStatus.initial:
+            hideLoader();
+            break;
+          case SignUpStatus.loading:
+            showLoader();
+            break;
+          case SignUpStatus.loaded:
+            hideLoader();
+            break;
+          case SignUpStatus.saved:
+            hideLoader();
+            Navigator.of(context).pushReplacementNamed('/login');
+            break;
+          case SignUpStatus.error:
+            hideLoader();
+            showError(controller.errorMessage ?? 'Erro');
+            break;
+        }
+      });
+    });
+    super.initState();
+  }
 
   @override
   void dispose() {
     dateEC.dispose();
-    publicPlaceEC.dispose();
-    neighborhoodEC.dispose();
-    stateEC.dispose();
     super.dispose();
   }
 

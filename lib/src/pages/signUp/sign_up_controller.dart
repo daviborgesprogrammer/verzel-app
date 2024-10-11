@@ -199,7 +199,11 @@ abstract class SignUpControllerBase with Store {
 
   @computed
   bool get isFormValid =>
-      nameValid && emailValid && birthdateValid && passwordValid;
+      nameValid &&
+      emailValid &&
+      birthdateValid &&
+      passwordValid &&
+      retypePasswordValid;
 
   @action
   void invalidSendPressed() => _showErrors = true;
@@ -209,17 +213,23 @@ abstract class SignUpControllerBase with Store {
 
   @action
   Future<void> register() async {
-    _status = SignUpStatus.loading;
-    final user = User(
-      name: name,
-      email: email,
-      birthdate: birthdate,
-      address: _address?.copyWith(number: () => number),
-      cpf: cpf,
-      password: password,
-    );
-    _userService.insert(user);
-    _status = SignUpStatus.saved;
-    _status = SignUpStatus.error;
+    try {
+      _status = SignUpStatus.loading;
+      final user = User(
+        name: name,
+        email: email,
+        birthdate: birthdate,
+        address: _address?.copyWith(number: () => number),
+        cpf: cpf,
+        password: password,
+      );
+      final int id = await _userService.insert(user);
+      // var u = _userService.get(id);
+      // print('USER:$u');
+      _status = SignUpStatus.saved;
+    } catch (e) {
+      _errorMessage = 'Erro ao salvar usuário';
+      _status = SignUpStatus.error;
+    }
   }
 }

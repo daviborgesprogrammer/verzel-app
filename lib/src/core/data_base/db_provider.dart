@@ -38,11 +38,11 @@ class DBProvider {
     );
   }
 
-  Future<void> insert(User user) async {
+  Future<int> insert(User user) async {
     final db = await database;
     final table = await db.rawQuery('SELECT MAX(id)+1 as id FROM CLIENT');
-    final int id = table.first['id'] as int;
-    await db.rawInsert(
+    final int id = table.first['id'] != null ? table.first['id'] as int : 1;
+    return db.rawInsert(
         'INSERT INTO CLIENT (id,name, email,birthDate, cpf, zip, address,number,password) VALUES (?,?,?,?,?,?,?,?,?)',
         [
           id,
@@ -51,11 +51,23 @@ class DBProvider {
           user.birthdate,
           user.cpf,
           user.address?.zipCode,
-          user.address,
+          user.address?.toMap(),
           user.address?.number,
           user.password,
         ]);
   }
+
+  Future<User?> get(int id) async {
+    final db = await database;
+    final res = await db.query('Client', where: 'id = ?', whereArgs: [id]);
+    return res.isNotEmpty ? User.fromMap(res.first) : null;
+  }
+
+  // getClient(int id) async {
+  //   final db = await database;
+  //   var res = await db.query("Client", where: "id = ?", whereArgs: [id]);
+  //   return res.isNotEmpty ? Client.fromMap(res.first) : null;
+  // }
 
   // blockOrUnblock(Client client) async {
   //   final db = await database;
@@ -74,12 +86,6 @@ class DBProvider {
   //   var res = await db.update("Client", newClient.toMap(),
   //       where: "id = ?", whereArgs: [newClient.id]);
   //   return res;
-  // }
-
-  // getClient(int id) async {
-  //   final db = await database;
-  //   var res = await db.query("Client", where: "id = ?", whereArgs: [id]);
-  //   return res.isNotEmpty ? Client.fromMap(res.first) : null;
   // }
 
   // Future<List<Client>> getBlockedClients() async {
