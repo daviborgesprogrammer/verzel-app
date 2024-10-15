@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:scroll_date_picker/scroll_date_picker.dart';
 
-import '../../../core/ui/styles/colors_app.dart';
-import '../../../core/ui/styles/text_style.dart';
-import '../../../core/widgets/verzel_text_field.dart';
+import '../../../../core/ui/styles/colors_app.dart';
+import '../../../../core/ui/styles/text_style.dart';
+import '../../../../core/widgets/verzel_text_field.dart';
 import '../sign_up_controller.dart';
 
 class DateField extends StatefulWidget {
@@ -64,15 +64,17 @@ class _DateFieldState extends State<DateField> {
                   padding: const EdgeInsets.only(top: 4),
                   height: 240,
                   child: ScrollDatePicker(
-                    maximumDate:
-                        DateTime.now().subtract(const Duration(days: 12 * 365)),
+                    maximumDate: DateTime(DateTime.now().year, 12, 31),
                     options: DatePickerOptions(
                       backgroundColor: ColorsApp.i.backgroundDark,
                     ),
                     selectedDate: widget.controller.birthdate != null
                         ? dateFormat.parse(widget.controller.birthdate!)
-                        : DateTime.now()
-                            .subtract(const Duration(days: 12 * 365)),
+                        : DateTime(
+                            selectedDate.year - 12,
+                            selectedDate.month,
+                            selectedDate.day,
+                          ),
                     locale: const Locale('en'),
                     onDateTimeChanged: (DateTime value) {
                       selectedDate = value;

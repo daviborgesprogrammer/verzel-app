@@ -4,14 +4,14 @@ import 'package:flutter/services.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:intl/intl.dart';
 
-import '../../core/extensions/form_unfocus.dart';
-import '../../core/ui/size_extensions.dart';
-import '../../core/ui/styles/colors_app.dart';
-import '../../core/ui/styles/text_style.dart';
-import '../../core/widgets/loader.dart';
-import '../../core/widgets/logo_text.dart';
-import '../../core/widgets/messages.dart';
-import '../../core/widgets/verzel_text_field.dart';
+import '../../../core/extensions/form_unfocus.dart';
+import '../../../core/ui/size_extensions.dart';
+import '../../../core/ui/styles/colors_app.dart';
+import '../../../core/ui/styles/text_style.dart';
+import '../../../core/widgets/loader.dart';
+import '../../../core/widgets/logo_text.dart';
+import '../../../core/widgets/messages.dart';
+import '../../../core/widgets/verzel_text_field.dart';
 import 'sign_up_controller.dart';
 import 'widgets/date_field.dart';
 import 'widgets/password_session.dart';
@@ -34,7 +34,7 @@ class _SignUpPageState extends State<SignUpPage> with Loader, Messages {
   @override
   void initState() {
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      statusDisposer = reaction((_) => controller.status, (status) {
+      statusDisposer = reaction((_) => controller.status, (status) async {
         switch (status) {
           case SignUpStatus.initial:
             hideLoader();
@@ -62,6 +62,7 @@ class _SignUpPageState extends State<SignUpPage> with Loader, Messages {
   @override
   void dispose() {
     dateEC.dispose();
+    statusDisposer();
     super.dispose();
   }
 

@@ -1,11 +1,11 @@
 import 'package:get_it/get_it.dart';
 import 'package:mobx/mobx.dart';
 
-import '../../core/extensions/validator_extensions.dart';
-import '../../models/address_model.dart';
-import '../../models/user_model.dart';
-import '../../services/user/user_service.dart';
-import '../../services/zip/zip_service.dart';
+import '../../../core/extensions/validator_extensions.dart';
+import '../../../models/address_model.dart';
+import '../../../models/user_model.dart';
+import '../../../services/user/user_service.dart';
+import '../../../services/zip/zip_service.dart';
 part 'sign_up_controller.g.dart';
 
 enum SignUpStatus {
@@ -217,15 +217,20 @@ abstract class SignUpControllerBase with Store {
       _status = SignUpStatus.loading;
       final user = User(
         name: name,
+        cpf: cpf,
         email: email,
         birthdate: birthdate,
-        address: _address?.copyWith(number: () => number),
-        cpf: cpf,
+        zip: zip,
+        number: number,
+        address:
+            '${_address?.publicPlace}, ${_address?.neighborhood}, ${_address?.state}, $number, ${_address?.zipCode}',
         password: password,
       );
-      final int id = await _userService.insert(user);
+      await _userService.save(user);
+      // final int id = await _userService.save(user);
       // var u = _userService.get(id);
       // print('USER:$u');
+
       _status = SignUpStatus.saved;
     } catch (e) {
       _errorMessage = 'Erro ao salvar usuário';

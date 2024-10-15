@@ -12,7 +12,7 @@ class LogoText extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.fromLTRB(24, context.appTopHeight + 24, 24, 24),
+      padding: EdgeInsets.fromLTRB(0, context.appTopHeight + 24, 24, 24),
       child: Row(
         children: [
           Image.asset(

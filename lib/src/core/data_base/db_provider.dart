@@ -50,9 +50,9 @@ class DBProvider {
           user.email,
           user.birthdate,
           user.cpf,
-          user.address?.zipCode,
-          user.address?.toMap(),
-          user.address?.number,
+          user.zip,
+          user.address,
+          user.number,
           user.password,
         ]);
   }
@@ -61,6 +61,16 @@ class DBProvider {
     final db = await database;
     final res = await db.query('Client', where: 'id = ?', whereArgs: [id]);
     return res.isNotEmpty ? User.fromMap(res.first) : null;
+  }
+
+  Future<User?> getByEmail(({String? email, String? password}) userData) async {
+    final db = await database;
+    final res = await db.query(
+      'Client',
+      where: 'email = ?',
+      whereArgs: [userData.email],
+    );
+    return res.isEmpty ? null : User.fromMap(res.first);
   }
 
   // getClient(int id) async {

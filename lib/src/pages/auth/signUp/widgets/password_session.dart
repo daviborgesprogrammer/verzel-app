@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 
-import '../../../core/ui/styles/colors_app.dart';
-import '../../../core/ui/styles/text_style.dart';
-import '../../../core/widgets/verzel_text_field.dart';
+import '../../../../core/ui/styles/colors_app.dart';
+import '../../../../core/ui/styles/text_style.dart';
+import '../../../../core/widgets/verzel_text_field.dart';
 import '../sign_up_controller.dart';
 
 class PasswordSession extends StatefulWidget {
