@@ -5,6 +5,7 @@ import 'package:mobx/mobx.dart';
 
 import '../../../core/extensions/validator_extensions.dart';
 import '../../../services/user/user_service.dart';
+import '../auth_controller.dart';
 part 'login_controller.g.dart';
 
 enum LoginStatus {
@@ -77,9 +78,9 @@ abstract class LoginControllerBase with Store {
   Future<void> login() async {
     try {
       _status = LoginStatus.loading;
-      final userData = (email: email, password: password);
-      final auth = await _userService.login(userData);
+      final auth = await _userService.login((email: email, password: password));
       if (auth != null) {
+        await GetIt.I<AuthController>().getCurrentUser();
         _status = LoginStatus.success;
       } else {
         _errorMessage = 'Email e/ou senha inválido(s)';

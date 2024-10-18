@@ -6,6 +6,7 @@ import '../../../models/address_model.dart';
 import '../../../models/user_model.dart';
 import '../../../services/user/user_service.dart';
 import '../../../services/zip/zip_service.dart';
+import '../auth_controller.dart';
 part 'sign_up_controller.g.dart';
 
 enum SignUpStatus {
@@ -227,10 +228,8 @@ abstract class SignUpControllerBase with Store {
         password: password,
       );
       await _userService.save(user);
-      // final int id = await _userService.save(user);
-      // var u = _userService.get(id);
-      // print('USER:$u');
-
+      await _userService.login((email: email, password: password));
+      await GetIt.I<AuthController>().getCurrentUser();
       _status = SignUpStatus.saved;
     } catch (e) {
       _errorMessage = 'Erro ao salvar usuário';

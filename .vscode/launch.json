@@ -5,18 +5,18 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "verzel-app",
+            "name": "verzel",
             "request": "launch",
             "type": "dart"
         },
         {
-            "name": "verzel-app (profile mode)",
+            "name": "verzel (profile mode)",
             "request": "launch",
             "type": "dart",
             "flutterMode": "profile"
         },
         {
-            "name": "verzel-app (release mode)",
+            "name": "verzel (release mode)",
             "request": "launch",
             "type": "dart",
             "flutterMode": "release"

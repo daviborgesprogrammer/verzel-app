@@ -47,7 +47,7 @@ class _SignUpPageState extends State<SignUpPage> with Loader, Messages {
             break;
           case SignUpStatus.saved:
             hideLoader();
-            Navigator.of(context).pushReplacementNamed('/login');
+            Navigator.of(context).pushReplacementNamed('/taskList');
             break;
           case SignUpStatus.error:
             hideLoader();
@@ -208,7 +208,7 @@ class _SignUpPageState extends State<SignUpPage> with Loader, Messages {
               const SizedBox(height: 24),
               GestureDetector(
                 onTap: () async {
-                  Navigator.of(context).pushReplacementNamed('/login');
+                  Navigator.of(context).pushReplacementNamed('/auth/login');
                 },
                 child: Center(
                   child: RichText(

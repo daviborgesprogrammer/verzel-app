@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../constants/verzel_constants.dart';
+import '../global/verzel_constants.dart';
 import '../ui/size_extensions.dart';
 import '../ui/styles/colors_app.dart';
 import '../ui/styles/text_style.dart';

@@ -1,4 +1,7 @@
+import 'package:flutter/material.dart';
+
 class User {
+  int? id;
   String? name;
   String? cpf;
   String? birthdate;
@@ -8,6 +11,7 @@ class User {
   String? number;
   String? password;
   User({
+    this.id,
     this.name,
     this.cpf,
     this.birthdate,
@@ -43,9 +47,27 @@ class User {
       password: map['password'] != null ? map['password'] as String : null,
     );
   }
-
-  @override
-  String toString() {
-    return 'User{name=$name, cpf=$cpf, birthdate=$birthdate, email=$email, zip=$zip, address=$address, number=$number, password=$password}';
+  User copyWith({
+    ValueGetter<int?>? id,
+    ValueGetter<String?>? name,
+    ValueGetter<String?>? cpf,
+    ValueGetter<String?>? birthdate,
+    ValueGetter<String?>? email,
+    ValueGetter<String?>? zip,
+    ValueGetter<String?>? address,
+    ValueGetter<String?>? number,
+    ValueGetter<String?>? password,
+  }) {
+    return User(
+      id: id != null ? id() : this.id,
+      name: name != null ? name() : this.name,
+      cpf: cpf != null ? cpf() : this.cpf,
+      birthdate: birthdate != null ? birthdate() : this.birthdate,
+      email: email != null ? email() : this.email,
+      zip: zip != null ? zip() : this.zip,
+      address: address != null ? address() : this.address,
+      number: number != null ? number() : this.number,
+      password: password != null ? password() : this.password,
+    );
   }
 }

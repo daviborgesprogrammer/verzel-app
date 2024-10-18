@@ -131,7 +131,8 @@ class _LoginPageState extends State<LoginPage> with Loader, Messages {
                     ),
                     TextButton(
                       onPressed: () async {
-                        Navigator.of(context).pushReplacementNamed('/signup');
+                        Navigator.of(context)
+                            .pushReplacementNamed('/auth/signup');
                       },
                       child: Text(
                         'SIGN UP',
