@@ -4,7 +4,6 @@ import 'package:flutter/services.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:intl/intl.dart';
 
-import '../../../core/extensions/form_unfocus.dart';
 import '../../../core/ui/size_extensions.dart';
 import '../../../core/ui/styles/colors_app.dart';
 import '../../../core/ui/styles/text_style.dart';
@@ -109,13 +108,10 @@ class _SignUpPageState extends State<SignUpPage> with Loader, Messages {
                   controllerText: dateEC,
                   title: 'Birthdate',
                   hint: 'Select a date',
-                  readOnly: true,
-                  controller: controller,
-                  onTap: () {
-                    controller.setShowDatePicker(true);
-                    context.unfocus();
-                  },
-                  offstage: !controller.showDatePicker,
+                  isBirthdate: true,
+                  initialDate: controller.birthdate,
+                  onChanged: controller.setBirthdate,
+                  errorText: controller.birthdateError,
                 ),
               ),
               const SizedBox(height: 8),
@@ -186,7 +182,7 @@ class _SignUpPageState extends State<SignUpPage> with Loader, Messages {
                   hint: 'Nº',
                   errorText: controller.numberError,
                   onChanged: controller.setNumber,
-                  keyboardType: TextInputType.number,
+                  keyboardType: TextInputType.text,
                   textInputAction: TextInputAction.next,
                 ),
               ),

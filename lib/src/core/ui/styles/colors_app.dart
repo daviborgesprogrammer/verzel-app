@@ -18,6 +18,7 @@ class ColorsApp {
 
   Color get textDark => const Color(0XFF263238);
   Color get text => const Color(0XFF607D8B);
+  Color get textWhite => const Color(0XFFECEFF1);
 
   Color get delete => const Color(0XFFFE4A49);
   Color get edit => const Color(0XFF21B7CA);

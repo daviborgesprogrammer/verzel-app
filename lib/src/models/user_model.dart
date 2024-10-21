@@ -24,6 +24,7 @@ class User {
 
   Map<String, dynamic> toMap() {
     return <String, dynamic>{
+      'id': id,
       'name': name,
       'cpf': cpf,
       'birthdate': birthdate,
@@ -37,6 +38,7 @@ class User {
 
   factory User.fromMap(Map<String, dynamic> map) {
     return User(
+      id: map['id'],
       name: map['name'] != null ? map['name'] as String : null,
       cpf: map['cpf'] != null ? map['cpf'] as String : null,
       birthdate: map['birthdate'] != null ? map['birthdate'] as String : null,

@@ -45,6 +45,48 @@ mixin _$TaskListController on TaskListControllerBase, Store {
     });
   }
 
+  late final _$userIdAtom =
+      Atom(name: 'TaskListControllerBase.userId', context: context);
+
+  @override
+  int? get userId {
+    _$userIdAtom.reportRead();
+    return super.userId;
+  }
+
+  @override
+  set userId(int? value) {
+    _$userIdAtom.reportWrite(value, super.userId, () {
+      super.userId = value;
+    });
+  }
+
+  late final _$_tasksAtom =
+      Atom(name: 'TaskListControllerBase._tasks', context: context);
+
+  List<Task> get tasks {
+    _$_tasksAtom.reportRead();
+    return super._tasks;
+  }
+
+  @override
+  List<Task> get _tasks => tasks;
+
+  @override
+  set _tasks(List<Task> value) {
+    _$_tasksAtom.reportWrite(value, super._tasks, () {
+      super._tasks = value;
+    });
+  }
+
+  late final _$fetchTasksAsyncAction =
+      AsyncAction('TaskListControllerBase.fetchTasks', context: context);
+
+  @override
+  Future<void> fetchTasks() {
+    return _$fetchTasksAsyncAction.run(() => super.fetchTasks());
+  }
+
   late final _$logoutAsyncAction =
       AsyncAction('TaskListControllerBase.logout', context: context);
 
@@ -53,10 +95,24 @@ mixin _$TaskListController on TaskListControllerBase, Store {
     return _$logoutAsyncAction.run(() => super.logout());
   }
 
+  late final _$TaskListControllerBaseActionController =
+      ActionController(name: 'TaskListControllerBase', context: context);
+
+  @override
+  void setUserId(int? value) {
+    final _$actionInfo = _$TaskListControllerBaseActionController.startAction(
+        name: 'TaskListControllerBase.setUserId');
+    try {
+      return super.setUserId(value);
+    } finally {
+      _$TaskListControllerBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
   @override
   String toString() {
     return '''
-
+userId: ${userId}
     ''';
   }
 }

@@ -1,10 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:mobx/mobx.dart';
 
 import '../../core/ui/size_extensions.dart';
 import '../../core/ui/styles/colors_app.dart';
 import '../../core/ui/styles/text_style.dart';
+import '../../core/widgets/loader.dart';
+import '../../core/widgets/messages.dart';
 import '../../core/widgets/verzel_text_field.dart';
+import '../auth/signUp/widgets/date_field.dart';
 import 'create_task_controller.dart';
 
 class CreateTaskPage extends StatefulWidget {
@@ -14,10 +18,46 @@ class CreateTaskPage extends StatefulWidget {
   State<CreateTaskPage> createState() => _CreateTaskPageState();
 }
 
-class _CreateTaskPageState extends State<CreateTaskPage> {
-  final CreateTaskController controller = CreateTaskController();
+class _CreateTaskPageState extends State<CreateTaskPage> with Loader, Messages {
+  late CreateTaskController controller = CreateTaskController();
+  late final ReactionDisposer statusDisposer;
   final deliveryEC = TextEditingController();
   final conclusionEC = TextEditingController();
+
+  @override
+  void initState() {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      final userId = ModalRoute.of(context)?.settings.arguments as String?;
+      controller.setUserId(userId ?? '');
+      statusDisposer = reaction((_) => controller.status, (status) async {
+        switch (status) {
+          case CreateTaskStatus.initial:
+            hideLoader();
+            break;
+          case CreateTaskStatus.loading:
+            showLoader();
+            break;
+          case CreateTaskStatus.success:
+            hideLoader();
+            Navigator.pop(context);
+          case CreateTaskStatus.error:
+            hideLoader();
+            showError(controller.errorMessage ?? 'Erro');
+            break;
+        }
+      });
+    });
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    deliveryEC.dispose();
+    conclusionEC.dispose();
+    statusDisposer();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -52,37 +92,28 @@ class _CreateTaskPageState extends State<CreateTaskPage> {
                   textInputAction: TextInputAction.next,
                 ),
               ),
-              // const SizedBox(height: 8),
-              // Observer(
-              //   builder: (_) => DateFieldDelivery(
-              //     controllerText: deliveryEC,
-              //     title: 'Delivery Date',
-              //     hint: 'Select a date',
-              //     readOnly: true,
-              //     controller: controller,
-              //     onTap: () {
-              //       controller.setShowDeliveryDatePicker(true);
-              //       context.unfocus();
-              //     },
-              //     offstage: !controller.showDeliveryDatePicker,
-              //   ),
-              // ),
-              // const SizedBox(height: 8),
-              // Observer(
-              //   builder: (_) => DateFieldConclusion(
-              //     controllerText: conclusionEC,
-              //     title: 'Conclusion Date',
-              //     hint: 'Select a date',
-              //     readOnly: true,
-              //     controller: controller,
-              //     onTap: () {
-              //       controller.setShowConclusionDatePicker(true);
-              //       context.unfocus();
-              //     },
-              //     offstage: !controller.showConclusionDatePicker,
-              //   ),
-              // ),
-              // const SizedBox(height: 32),
+              const SizedBox(height: 8),
+              Observer(
+                builder: (_) => DateField(
+                  controllerText: deliveryEC,
+                  title: 'Delivery Date',
+                  hint: 'Select a date',
+                  initialDate: controller.deliveryDate,
+                  onChanged: controller.setDeliveryDate,
+                  errorText: controller.deliveryDateError,
+                ),
+              ),
+              const SizedBox(height: 8),
+              Observer(
+                builder: (_) => DateField(
+                  controllerText: conclusionEC,
+                  title: 'Conclusion Date',
+                  hint: 'Select a date',
+                  initialDate: controller.conclusionDate,
+                  onChanged: controller.setConclusionDate,
+                ),
+              ),
+              const SizedBox(height: 32),
               Observer(
                 builder: (_) => SizedBox(
                   height: 56,

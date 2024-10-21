@@ -140,39 +140,19 @@ mixin _$CreateTaskController on CreateTaskControllerBase, Store {
     });
   }
 
-  late final _$showDeliveryDatePickerAtom = Atom(
-      name: 'CreateTaskControllerBase.showDeliveryDatePicker',
-      context: context);
+  late final _$userIdAtom =
+      Atom(name: 'CreateTaskControllerBase.userId', context: context);
 
   @override
-  bool get showDeliveryDatePicker {
-    _$showDeliveryDatePickerAtom.reportRead();
-    return super.showDeliveryDatePicker;
+  String? get userId {
+    _$userIdAtom.reportRead();
+    return super.userId;
   }
 
   @override
-  set showDeliveryDatePicker(bool value) {
-    _$showDeliveryDatePickerAtom
-        .reportWrite(value, super.showDeliveryDatePicker, () {
-      super.showDeliveryDatePicker = value;
-    });
-  }
-
-  late final _$showConclusionDatePickerAtom = Atom(
-      name: 'CreateTaskControllerBase.showConclusionDatePicker',
-      context: context);
-
-  @override
-  bool get showConclusionDatePicker {
-    _$showConclusionDatePickerAtom.reportRead();
-    return super.showConclusionDatePicker;
-  }
-
-  @override
-  set showConclusionDatePicker(bool value) {
-    _$showConclusionDatePickerAtom
-        .reportWrite(value, super.showConclusionDatePicker, () {
-      super.showConclusionDatePicker = value;
+  set userId(String? value) {
+    _$userIdAtom.reportWrite(value, super.userId, () {
+      super.userId = value;
     });
   }
 
@@ -186,6 +166,17 @@ mixin _$CreateTaskController on CreateTaskControllerBase, Store {
 
   late final _$CreateTaskControllerBaseActionController =
       ActionController(name: 'CreateTaskControllerBase', context: context);
+
+  @override
+  void setUserId(String value) {
+    final _$actionInfo = _$CreateTaskControllerBaseActionController.startAction(
+        name: 'CreateTaskControllerBase.setUserId');
+    try {
+      return super.setUserId(value);
+    } finally {
+      _$CreateTaskControllerBaseActionController.endAction(_$actionInfo);
+    }
+  }
 
   @override
   void setTitle(String value) {
@@ -221,28 +212,6 @@ mixin _$CreateTaskController on CreateTaskControllerBase, Store {
   }
 
   @override
-  void setShowDeliveryDatePicker(bool value) {
-    final _$actionInfo = _$CreateTaskControllerBaseActionController.startAction(
-        name: 'CreateTaskControllerBase.setShowDeliveryDatePicker');
-    try {
-      return super.setShowDeliveryDatePicker(value);
-    } finally {
-      _$CreateTaskControllerBaseActionController.endAction(_$actionInfo);
-    }
-  }
-
-  @override
-  void setShowConclusionDatePicker(bool value) {
-    final _$actionInfo = _$CreateTaskControllerBaseActionController.startAction(
-        name: 'CreateTaskControllerBase.setShowConclusionDatePicker');
-    try {
-      return super.setShowConclusionDatePicker(value);
-    } finally {
-      _$CreateTaskControllerBaseActionController.endAction(_$actionInfo);
-    }
-  }
-
-  @override
   void invalidSendPressed() {
     final _$actionInfo = _$CreateTaskControllerBaseActionController.startAction(
         name: 'CreateTaskControllerBase.invalidSendPressed');
@@ -259,8 +228,7 @@ mixin _$CreateTaskController on CreateTaskControllerBase, Store {
 title: ${title},
 deliveryDate: ${deliveryDate},
 conclusionDate: ${conclusionDate},
-showDeliveryDatePicker: ${showDeliveryDatePicker},
-showConclusionDatePicker: ${showConclusionDatePicker},
+userId: ${userId},
 titleValid: ${titleValid},
 deliveryDateValid: ${deliveryDateValid},
 isFormValid: ${isFormValid},

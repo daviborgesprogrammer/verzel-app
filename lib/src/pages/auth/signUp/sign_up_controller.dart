@@ -98,7 +98,7 @@ abstract class SignUpControllerBase with Store {
     if (!_showErrors || nameValid) {
       return null;
     } else if (name == null || (name != null && name!.isEmpty)) {
-      return 'Name required';
+      return 'Name is required';
     } else {
       return 'Very short name';
     }
@@ -110,7 +110,7 @@ abstract class SignUpControllerBase with Store {
     if (!_showErrors || emailValid) {
       return null;
     } else if (email == null || (email != null && email!.isEmpty)) {
-      return 'Email required';
+      return 'Email is required';
     } else {
       return 'Email invalid';
     }
@@ -122,7 +122,7 @@ abstract class SignUpControllerBase with Store {
     if (!_showErrors || birthdateValid) {
       return null;
     } else {
-      return 'Select date of birth';
+      return 'Date of birth is required';
     }
   }
 
@@ -132,7 +132,7 @@ abstract class SignUpControllerBase with Store {
     if (!_showErrors || cpfValid) {
       return null;
     } else if (cpf == null || (cpf != null && cpf!.isEmpty)) {
-      return 'CPF required';
+      return 'CPF is required';
     } else if (!cpf!.isCPFValid) {
       return 'CPF invalid';
     } else {
@@ -146,7 +146,7 @@ abstract class SignUpControllerBase with Store {
     if (!_showErrors || zipValid) {
       return null;
     } else if (zip == null || zip!.isEmpty) {
-      return 'Zip required';
+      return 'Zip is required';
     } else {
       return 'Very short Zip';
     }
@@ -158,7 +158,7 @@ abstract class SignUpControllerBase with Store {
     if (!_showErrors || numberValid) {
       return null;
     } else if (name == null || (number != null && number!.isEmpty)) {
-      return 'number required';
+      return 'Number is required';
     }
     return null;
   }

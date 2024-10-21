@@ -6,9 +6,9 @@ import 'db_provider.dart';
 class UserFields {
   static const String tableName = 'CLIENT';
   static const String idType = 'INTEGER PRIMARY KEY AUTOINCREMENT';
-  static const String textType = 'TEXT NOT NULL';
-  static const String intType = 'INTEGER NOT NULL';
-  static const String id = '_id';
+  static const String textType = 'TEXT';
+  static const String intType = 'INTEGER';
+  static const String id = 'id';
   static const String name = 'name';
   static const String email = 'email';
   static const String birthDate = 'birthDate';
@@ -23,14 +23,14 @@ final class DbUser {
   static Future<void> createTable(Database db) async {
     await db.execute('''
           CREATE TABLE ${UserFields.tableName} (
-          ${UserFields.id} ${UserFields.idType}
-          ${UserFields.name} ${UserFields.textType}
-          ${UserFields.email} ${UserFields.textType}
-          ${UserFields.birthDate} ${UserFields.textType}
-          ${UserFields.cpf} ${UserFields.textType}
-          ${UserFields.zip} ${UserFields.textType}
-          ${UserFields.address} ${UserFields.textType}
-          ${UserFields.number} ${UserFields.textType}
+          ${UserFields.id} ${UserFields.idType},
+          ${UserFields.name} ${UserFields.textType},
+          ${UserFields.email} ${UserFields.textType},
+          ${UserFields.birthDate} ${UserFields.textType},
+          ${UserFields.cpf} ${UserFields.textType},
+          ${UserFields.zip} ${UserFields.textType},
+          ${UserFields.address} ${UserFields.textType},
+          ${UserFields.number} ${UserFields.textType},
           ${UserFields.password} ${UserFields.textType}
           )
           ''');

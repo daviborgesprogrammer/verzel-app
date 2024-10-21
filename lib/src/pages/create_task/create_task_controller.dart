@@ -1,4 +1,12 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
+import 'dart:developer';
+
+import 'package:get_it/get_it.dart';
 import 'package:mobx/mobx.dart';
+
+import '../../models/task_model.dart';
+import '../../services/task/task_service.dart';
+
 part 'create_task_controller.g.dart';
 
 enum CreateTaskStatus {
@@ -12,6 +20,7 @@ class CreateTaskController = CreateTaskControllerBase
     with _$CreateTaskController;
 
 abstract class CreateTaskControllerBase with Store {
+  final _taskService = GetIt.I<TaskService>();
   @readonly
   var _status = CreateTaskStatus.initial;
 
@@ -31,10 +40,10 @@ abstract class CreateTaskControllerBase with Store {
   String? conclusionDate;
 
   @observable
-  bool showDeliveryDatePicker = false;
+  String? userId;
 
-  @observable
-  bool showConclusionDatePicker = false;
+  @action
+  void setUserId(String value) => userId = value;
 
   @action
   void setTitle(String value) => title = value;
@@ -44,13 +53,6 @@ abstract class CreateTaskControllerBase with Store {
 
   @action
   void setConclusionDate(String value) => conclusionDate = value;
-
-  @action
-  void setShowDeliveryDatePicker(bool value) => showDeliveryDatePicker = value;
-
-  @action
-  void setShowConclusionDatePicker(bool value) =>
-      showConclusionDatePicker = value;
 
   @computed
   bool get titleValid => title != null && title!.isNotEmpty;
@@ -65,19 +67,11 @@ abstract class CreateTaskControllerBase with Store {
   @computed
   bool get deliveryDateValid => deliveryDate != null;
   String? get deliveryDateError {
-    // if (deliveryDateValid) {
-    //   return null;
-    // } else {
-    //   return 'Select delivery date';
-    // }
-    return '$_showErrors';
-    // if (!_showErrors || deliveryDateValid) {
-    //   return null;
-    // }
-    // } else {
-    //   return 'Select delivery date';
-    // }
-    // return !_showErrors ? null : 'xyz';
+    if (!_showErrors || deliveryDateValid) {
+      return null;
+    } else {
+      return 'Delivery Date is required';
+    }
   }
 
   @action
@@ -90,5 +84,21 @@ abstract class CreateTaskControllerBase with Store {
   dynamic get sendPressed => isFormValid ? registerTask : null;
 
   @action
-  Future<void> registerTask() async {}
+  Future<void> registerTask() async {
+    try {
+      _status = CreateTaskStatus.loading;
+      final task = Task(
+        idUser: int.parse(userId ?? '0'),
+        title: title,
+        deliveryDate: deliveryDate,
+        conclusionDate: conclusionDate,
+        status: TaskStatus.active,
+      );
+      await _taskService.save(task);
+      _status = CreateTaskStatus.success;
+    } catch (e, s) {
+      log('Erro ao salvar tarefa', error: e, stackTrace: s);
+      _status = CreateTaskStatus.error;
+    }
+  }
 }

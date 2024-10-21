@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:get_it/get_it.dart';
 import 'package:mobx/mobx.dart';
 
@@ -9,6 +10,7 @@ import '../../core/widgets/loader.dart';
 import '../../core/widgets/messages.dart';
 import '../auth/auth_controller.dart';
 import 'task_list_controller.dart';
+import 'widgets/task_tile.dart';
 
 class TaskListPage extends StatefulWidget {
   const TaskListPage({super.key});
@@ -24,7 +26,9 @@ class _TaskListPageState extends State<TaskListPage> with Loader, Messages {
 
   @override
   void initState() {
-    WidgetsBinding.instance.addPostFrameCallback((_) {
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
+      controller.setUserId(_auth.user?.id);
+
       statusDisposer = reaction((_) => controller.status, (status) async {
         switch (status) {
           case TaskListStatus.initial:
@@ -35,7 +39,6 @@ class _TaskListPageState extends State<TaskListPage> with Loader, Messages {
             break;
           case TaskListStatus.loaded:
             hideLoader();
-            Navigator.of(context).pushReplacementNamed('/taskList');
             break;
           case TaskListStatus.logout:
             hideLoader();
@@ -47,6 +50,7 @@ class _TaskListPageState extends State<TaskListPage> with Loader, Messages {
             break;
         }
       });
+      await controller.fetchTasks();
     });
     super.initState();
   }
@@ -61,7 +65,7 @@ class _TaskListPageState extends State<TaskListPage> with Loader, Messages {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: ColorsApp.i.background,
+        // backgroundColor: ColorsApp.i.primary,
         toolbarHeight: 93,
         title: Padding(
           padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 6),
@@ -93,7 +97,8 @@ class _TaskListPageState extends State<TaskListPage> with Loader, Messages {
         actions: [
           IconButton(
             onPressed: () async {
-              Navigator.of(context).pushNamed('/create');
+              Navigator.of(context)
+                  .pushNamed('/create', arguments: '${_auth.user?.id}');
             },
             icon: Icon(
               Icons.add,
@@ -110,15 +115,20 @@ class _TaskListPageState extends State<TaskListPage> with Loader, Messages {
             ),
           ),
         ],
-        bottom: PreferredSize(
-          preferredSize: const Size.fromHeight(4.0),
-          child: Container(
-            color: ColorsApp.i.primary,
-            height: 2.0,
-          ),
+      ),
+      body: Observer(
+        builder: (_) => ListView.builder(
+          itemCount: controller.taskCount,
+          itemBuilder: (_, index) => TaskTile(controller.tasks[index]),
         ),
       ),
-      body: Container(),
+      // body: ListView(
+      //   children: [
+      //     const TaskTile(),
+      //     const TaskTile(),
+      //     const TaskTile(),
+      //   ],
+      // ),
     );
   }
 }

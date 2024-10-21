@@ -3,6 +3,7 @@ import 'package:get_it/get_it.dart';
 
 import 'src/core/storage/storage.dart';
 import 'src/pages/auth/auth_controller.dart';
+import 'src/services/task/task_service.dart';
 import 'src/services/user/user_service.dart';
 import 'verzel_app.dart';
 
@@ -17,7 +18,8 @@ Future<void> buildApp() async {
 }
 
 Future<void> setupLocators() async {
-  GetIt.I.registerLazySingleton(() => UserService());
-  GetIt.I.registerLazySingleton(() => AuthController());
   GetIt.I.registerLazySingleton(() => Storage());
+  GetIt.I.registerLazySingleton(() => AuthController());
+  GetIt.I.registerLazySingleton(() => UserService());
+  GetIt.I.registerLazySingleton(() => TaskService());
 }
