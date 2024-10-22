@@ -12,8 +12,9 @@ class TaskTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final concluded = task.status == TaskStatus.concluded;
     return Slidable(
-      key: const ValueKey(0),
+      key: ValueKey(task.id),
       startActionPane: ActionPane(
         motion: const ScrollMotion(),
         dismissible: DismissiblePane(onDismissed: () {}),
@@ -23,20 +24,27 @@ class TaskTile extends StatelessWidget {
             onPressed: (context) async {
               showDialog(
                 context: context,
-                builder: (context) => const DialogWidget(),
+                builder: (context) => DialogWidget(
+                  title: 'Excluir tarefa',
+                  description:
+                      'Tem certeza de que deseja excluir esta tarefa? Esta ação não pode ser desfeita.',
+                  buttonText: 'Confirm',
+                  dialogType: DialogType.confirm,
+                  onTap: () {},
+                ),
               );
             },
             backgroundColor: ColorsApp.i.delete,
             foregroundColor: Colors.white,
             icon: Icons.delete,
-            label: 'Delete',
+            label: 'Excluir',
           ),
           SlidableAction(
             onPressed: (context) {},
             backgroundColor: ColorsApp.i.edit,
             foregroundColor: Colors.white,
             icon: Icons.edit,
-            label: 'Edit',
+            label: 'Editar',
           ),
         ],
       ),
@@ -46,57 +54,58 @@ class TaskTile extends StatelessWidget {
         children: [
           SlidableAction(
             onPressed: (context) {},
-            backgroundColor: ColorsApp.i.view,
-            foregroundColor: Colors.white,
-            icon: Icons.visibility,
-            label: 'View',
-          ),
-          SlidableAction(
-            onPressed: (context) {},
             backgroundColor: ColorsApp.i.conclude,
             foregroundColor: Colors.white,
             icon: Icons.check_circle,
-            label: 'Conclude',
+            label: 'Concluir',
           ),
         ],
       ),
-      child: Container(
-        padding: const EdgeInsets.all(16),
-        decoration: BoxDecoration(
-          border: Border(
-            bottom: BorderSide(
-              color: ColorsApp.i.text,
-              width: 1,
-            ),
+      child: GestureDetector(
+        onTap: () async {},
+        child: Container(
+          padding: const EdgeInsets.all(16),
+          decoration: BoxDecoration(
+            color: concluded ? const Color(0XFFBDBDBD) : Colors.white,
           ),
-        ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            Text(
-              task.title ?? '',
-              style: context.textStyles.textBold
-                  .copyWith(fontSize: 16, color: ColorsApp.i.primaryDark),
-            ),
-            const SizedBox(height: 4),
-            Offstage(
-              offstage: task.deliveryDate?.isEmpty ?? true,
-              child: Text(
-                'Delivery:${task.deliveryDate}',
-                style: context.textStyles.textRegular
-                    .copyWith(fontSize: 12, color: ColorsApp.i.text),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              Text(
+                task.title ?? '',
+                style: context.textStyles.textBold.copyWith(
+                  fontSize: 16,
+                  color: concluded
+                      ? const Color(0XFF4D4D4D)
+                      : ColorsApp.i.primaryDark,
+                ),
               ),
-            ),
-            const SizedBox(height: 2),
-            Offstage(
-              offstage: task.conclusionDate?.isEmpty ?? true,
-              child: Text(
-                'Conclusion:${task.conclusionDate}',
-                style: context.textStyles.textRegular
-                    .copyWith(fontSize: 12, color: ColorsApp.i.text),
+              const SizedBox(height: 4),
+              Offstage(
+                offstage: task.deliveryDate?.isEmpty ?? true,
+                child: Text(
+                  'Entrega:${task.deliveryDate}',
+                  style: context.textStyles.textRegular.copyWith(
+                    fontSize: 12,
+                    color:
+                        concluded ? const Color(0XFF8B8B8B) : ColorsApp.i.text,
+                  ),
+                ),
               ),
-            ),
-          ],
+              const SizedBox(height: 2),
+              Offstage(
+                offstage: task.conclusionDate?.isEmpty ?? true,
+                child: Text(
+                  'Conclusão:${task.conclusionDate}',
+                  style: context.textStyles.textRegular.copyWith(
+                    fontSize: 12,
+                    color:
+                        concluded ? const Color(0XFF8B8B8B) : ColorsApp.i.text,
+                  ),
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );

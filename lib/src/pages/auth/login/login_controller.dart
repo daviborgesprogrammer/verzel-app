@@ -50,9 +50,9 @@ abstract class LoginControllerBase with Store {
     if (!_showErrors || emailValid) {
       return null;
     } else if (email == null || (email != null && email!.isEmpty)) {
-      return 'Email required';
+      return '-mail obrigatório';
     } else {
-      return 'Email invalid';
+      return 'E-mail inválido';
     }
   }
 
@@ -62,9 +62,9 @@ abstract class LoginControllerBase with Store {
     if (!_showErrors || passwordValid) {
       return null;
     } else if (password == null || password!.isNotEmpty) {
-      return 'Password required';
+      return 'Senha obrigatória';
     } else {
-      return 'Very short password';
+      return 'Senha muito curta';
     }
   }
 

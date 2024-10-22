@@ -40,6 +40,9 @@ class _TaskListPageState extends State<TaskListPage> with Loader, Messages {
           case TaskListStatus.loaded:
             hideLoader();
             break;
+          case TaskListStatus.deleted:
+            hideLoader();
+            break;
           case TaskListStatus.logout:
             hideLoader();
             Navigator.of(context).pushReplacementNamed('/auth/login');
@@ -65,7 +68,6 @@ class _TaskListPageState extends State<TaskListPage> with Loader, Messages {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        // backgroundColor: ColorsApp.i.primary,
         toolbarHeight: 93,
         title: Padding(
           padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 6),
@@ -80,7 +82,7 @@ class _TaskListPageState extends State<TaskListPage> with Loader, Messages {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    'Hello',
+                    'Ola,',
                     style: context.textStyles.textRegular
                         .copyWith(fontSize: 12, color: ColorsApp.i.textDark),
                   ),
@@ -97,8 +99,11 @@ class _TaskListPageState extends State<TaskListPage> with Loader, Messages {
         actions: [
           IconButton(
             onPressed: () async {
-              Navigator.of(context)
+              final result = await Navigator.of(context)
                   .pushNamed('/create', arguments: '${_auth.user?.id}');
+              if (result == true) {
+                await controller.fetchTasks();
+              }
             },
             icon: Icon(
               Icons.add,
@@ -117,18 +122,16 @@ class _TaskListPageState extends State<TaskListPage> with Loader, Messages {
         ],
       ),
       body: Observer(
-        builder: (_) => ListView.builder(
+        builder: (_) => ListView.separated(
           itemCount: controller.taskCount,
           itemBuilder: (_, index) => TaskTile(controller.tasks[index]),
+          separatorBuilder: (context, index) => Divider(
+            height: 1,
+            color: ColorsApp.i.text,
+            thickness: 1,
+          ),
         ),
       ),
-      // body: ListView(
-      //   children: [
-      //     const TaskTile(),
-      //     const TaskTile(),
-      //     const TaskTile(),
-      //   ],
-      // ),
     );
   }
 }

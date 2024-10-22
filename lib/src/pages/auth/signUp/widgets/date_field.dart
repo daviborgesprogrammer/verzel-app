@@ -32,7 +32,7 @@ class DateField extends StatefulWidget {
 
 class _DateFieldState extends State<DateField> {
   DateTime selectedDate = DateTime.now();
-  var dateFormat = DateFormat('MM/dd/yyyy');
+  var dateFormat = DateFormat('dd/MM/yyyy');
   ValueNotifier<bool> showDatePicker = ValueNotifier<bool>(false);
   @override
   Widget build(BuildContext context) {
@@ -89,7 +89,7 @@ class _DateFieldState extends State<DateField> {
                               selectedDate.month,
                               selectedDate.day,
                             ),
-                      locale: const Locale('en'),
+                      locale: const Locale('pt'),
                       onDateTimeChanged: (DateTime value) {
                         selectedDate = value;
                       },

@@ -6,5 +6,7 @@ abstract interface class TaskService {
 
   Future<List<Task>> readTaskByUser(int id);
 
+  Future<int> delete(int id);
+
   factory TaskService() => TaskServiceImpl();
 }

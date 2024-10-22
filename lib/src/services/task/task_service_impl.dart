@@ -12,4 +12,9 @@ class TaskServiceImpl implements TaskService {
   Future<List<Task>> readTaskByUser(int id) {
     return DbTask.readByUser(id);
   }
+
+  @override
+  Future<int> delete(int id) async {
+    return DbTask.delete(id);
+  }
 }

@@ -98,9 +98,9 @@ abstract class SignUpControllerBase with Store {
     if (!_showErrors || nameValid) {
       return null;
     } else if (name == null || (name != null && name!.isEmpty)) {
-      return 'Name is required';
+      return 'Nome é obrigatório';
     } else {
-      return 'Very short name';
+      return 'Nome muito curto';
     }
   }
 
@@ -110,9 +110,9 @@ abstract class SignUpControllerBase with Store {
     if (!_showErrors || emailValid) {
       return null;
     } else if (email == null || (email != null && email!.isEmpty)) {
-      return 'Email is required';
+      return 'E-mail é obrigatório';
     } else {
-      return 'Email invalid';
+      return 'E-mail inválido';
     }
   }
 
@@ -122,7 +122,7 @@ abstract class SignUpControllerBase with Store {
     if (!_showErrors || birthdateValid) {
       return null;
     } else {
-      return 'Date of birth is required';
+      return 'Data de nascimento é necessária';
     }
   }
 
@@ -132,11 +132,11 @@ abstract class SignUpControllerBase with Store {
     if (!_showErrors || cpfValid) {
       return null;
     } else if (cpf == null || (cpf != null && cpf!.isEmpty)) {
-      return 'CPF is required';
+      return 'CPF é obrigatório';
     } else if (!cpf!.isCPFValid) {
-      return 'CPF invalid';
+      return 'CPF inválido';
     } else {
-      return 'Very short CPF';
+      return 'CPF muito curto';
     }
   }
 
@@ -146,9 +146,9 @@ abstract class SignUpControllerBase with Store {
     if (!_showErrors || zipValid) {
       return null;
     } else if (zip == null || zip!.isEmpty) {
-      return 'Zip is required';
+      return 'CEP é obrigatório';
     } else {
-      return 'Very short Zip';
+      return 'CEP muito curto';
     }
   }
 
@@ -158,7 +158,7 @@ abstract class SignUpControllerBase with Store {
     if (!_showErrors || numberValid) {
       return null;
     } else if (name == null || (number != null && number!.isEmpty)) {
-      return 'Number is required';
+      return 'Número é obrigatório';
     }
     return null;
   }
@@ -169,9 +169,9 @@ abstract class SignUpControllerBase with Store {
     if (!_showErrors || passwordValid) {
       return null;
     } else if (password == null || password!.isNotEmpty) {
-      return 'Password required';
+      return 'Senha obrigatória';
     } else {
-      return 'Very short password';
+      return 'Senha muito curta';
     }
   }
 
@@ -182,7 +182,7 @@ abstract class SignUpControllerBase with Store {
     if (!_showErrors || retypePasswordValid) {
       return null;
     } else {
-      return 'Passwords do not match';
+      return 'As senhas não correspondem';
     }
   }
 

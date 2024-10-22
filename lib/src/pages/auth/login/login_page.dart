@@ -57,12 +57,12 @@ class _LoginPageState extends State<LoginPage> with Loader, Messages {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const LogoText(title: 'Sign in'),
+              const LogoText(title: 'Login'),
               const SizedBox(height: 72),
               Observer(
                 builder: (_) => VerzelTextField(
-                  title: 'Email',
-                  hint: 'Type your email',
+                  title: 'E-mail',
+                  hint: 'Digite seu e-mail',
                   errorText: controller.emailError,
                   onChanged: controller.setEmail,
                   keyboardType: TextInputType.emailAddress,
@@ -72,8 +72,8 @@ class _LoginPageState extends State<LoginPage> with Loader, Messages {
               const SizedBox(height: 16),
               Observer(
                 builder: (_) => VerzelTextField(
-                  title: 'Password',
-                  hint: 'Type your password',
+                  title: 'Senha',
+                  hint: 'Digite sua senha',
                   errorText: controller.passwordError,
                   onChanged: controller.setPassword,
                   keyboardType: TextInputType.text,
@@ -97,7 +97,7 @@ class _LoginPageState extends State<LoginPage> with Loader, Messages {
                 child: Container(
                   padding: const EdgeInsets.fromLTRB(0, 18, 16, 18),
                   child: Text(
-                    'Forgot password?',
+                    'Esqueceu a senha?',
                     style: context.textStyles.textBold
                         .copyWith(fontSize: 12, color: ColorsApp.i.primary),
                   ),
@@ -112,7 +112,7 @@ class _LoginPageState extends State<LoginPage> with Loader, Messages {
                     onTap: controller.invalidSendPressed,
                     child: ElevatedButton(
                       onPressed: controller.sendPressed,
-                      child: const Text('LOGIN'),
+                      child: const Text('ENTRAR'),
                     ),
                   ),
                 ),
@@ -125,7 +125,7 @@ class _LoginPageState extends State<LoginPage> with Loader, Messages {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     Text(
-                      'Don’t Have An Account?',
+                      'Não tem uma conta?',
                       style: context.textStyles.textRegular
                           .copyWith(fontSize: 12, color: ColorsApp.i.textDark),
                     ),
@@ -135,7 +135,7 @@ class _LoginPageState extends State<LoginPage> with Loader, Messages {
                             .pushReplacementNamed('/auth/signup');
                       },
                       child: Text(
-                        'SIGN UP',
+                        'CADASTRE-SE',
                         style: context.textStyles.textBold
                             .copyWith(fontSize: 24, color: ColorsApp.i.primary),
                       ),

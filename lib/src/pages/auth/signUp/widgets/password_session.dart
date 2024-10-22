@@ -25,15 +25,15 @@ class _PasswordSessionState extends State<PasswordSession> {
       children: [
         const SizedBox(height: 16),
         Text(
-          'Authentication',
+          'Autenticação',
           style: context.textStyles.textBold
               .copyWith(fontSize: 20, color: ColorsApp.i.primary),
         ),
         const SizedBox(height: 16),
         Observer(
           builder: (_) => VerzelTextField(
-            title: 'Password',
-            hint: 'Type your password',
+            title: 'Senha',
+            hint: 'Digite sua senha',
             errorText: widget.controller.passwordError,
             onChanged: widget.controller.setPassword,
             keyboardType: TextInputType.text,
@@ -54,8 +54,8 @@ class _PasswordSessionState extends State<PasswordSession> {
         const SizedBox(height: 8),
         Observer(
           builder: (_) => VerzelTextField(
-            title: 'Confirm password',
-            hint: 'Confirm your password',
+            title: 'Confirme a senha',
+            hint: 'Confirme sua senha',
             errorText: widget.controller.retypePasswordError,
             onChanged: widget.controller.setRetypePass,
             keyboardType: TextInputType.text,

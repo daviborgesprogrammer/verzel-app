@@ -49,4 +49,13 @@ final class DbTask {
         ? result.map((json) => Task.fromMap(json)).toList()
         : [];
   }
+
+  static Future<int> delete(int id) async {
+    final db = await DBProvider.i.database;
+    return db.delete(
+      TaskFields.tableName,
+      where: '${TaskFields.id} = ?',
+      whereArgs: [id],
+    );
+  }
 }

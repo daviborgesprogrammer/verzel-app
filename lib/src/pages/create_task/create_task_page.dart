@@ -39,7 +39,7 @@ class _CreateTaskPageState extends State<CreateTaskPage> with Loader, Messages {
             break;
           case CreateTaskStatus.success:
             hideLoader();
-            Navigator.pop(context);
+            Navigator.pop(context, true);
           case CreateTaskStatus.error:
             hideLoader();
             showError(controller.errorMessage ?? 'Erro');
@@ -64,9 +64,13 @@ class _CreateTaskPageState extends State<CreateTaskPage> with Loader, Messages {
       appBar: AppBar(
         leading: IconButton(
           icon: const Icon(Icons.close),
-          onPressed: () => Navigator.pop(context),
+          onPressed: () => Navigator.pop(context, false),
         ),
-        title: const Text('create task'),
+        title: Text(
+          'Criar Tarefa',
+          style:
+              context.textStyles.textBold.copyWith(color: ColorsApp.i.primary),
+        ),
       ),
       body: SingleChildScrollView(
         child: Padding(
@@ -75,7 +79,7 @@ class _CreateTaskPageState extends State<CreateTaskPage> with Loader, Messages {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                'New Tasks',
+                'Nova tarefa',
                 style: context.textStyles.textBold.copyWith(
                   fontSize: 24,
                   color: ColorsApp.i.primary,
@@ -84,8 +88,8 @@ class _CreateTaskPageState extends State<CreateTaskPage> with Loader, Messages {
               const SizedBox(height: 16),
               Observer(
                 builder: (_) => VerzelTextField(
-                  title: 'Task Title',
-                  hint: 'Type title task',
+                  title: 'Título da tarefa',
+                  hint: 'Digite o título da tarefa',
                   errorText: controller.titleError,
                   onChanged: controller.setTitle,
                   keyboardType: TextInputType.text,
@@ -96,8 +100,8 @@ class _CreateTaskPageState extends State<CreateTaskPage> with Loader, Messages {
               Observer(
                 builder: (_) => DateField(
                   controllerText: deliveryEC,
-                  title: 'Delivery Date',
-                  hint: 'Select a date',
+                  title: 'Data de entrega',
+                  hint: 'Selecione uma data',
                   initialDate: controller.deliveryDate,
                   onChanged: controller.setDeliveryDate,
                   errorText: controller.deliveryDateError,
@@ -107,8 +111,8 @@ class _CreateTaskPageState extends State<CreateTaskPage> with Loader, Messages {
               Observer(
                 builder: (_) => DateField(
                   controllerText: conclusionEC,
-                  title: 'Conclusion Date',
-                  hint: 'Select a date',
+                  title: 'Data de Conclusão',
+                  hint: 'Selecione uma data',
                   initialDate: controller.conclusionDate,
                   onChanged: controller.setConclusionDate,
                 ),
@@ -122,7 +126,7 @@ class _CreateTaskPageState extends State<CreateTaskPage> with Loader, Messages {
                     onTap: controller.invalidSendPressed,
                     child: ElevatedButton(
                       onPressed: controller.sendPressed,
-                      child: const Text('CREATE TASK'),
+                      child: const Text('CRIAR'),
                     ),
                   ),
                 ),

@@ -20,10 +20,12 @@ class LogoText extends StatelessWidget {
             width: 100,
           ),
           const SizedBox(width: 8),
-          Text(
-            title,
-            style: context.textStyles.textBold
-                .copyWith(fontSize: 32, color: ColorsApp.i.primaryDark),
+          Flexible(
+            child: Text(
+              title,
+              style: context.textStyles.textBold
+                  .copyWith(fontSize: 32, color: ColorsApp.i.primaryDark),
+            ),
           ),
         ],
       ),

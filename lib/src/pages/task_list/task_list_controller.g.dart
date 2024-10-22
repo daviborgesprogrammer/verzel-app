@@ -87,6 +87,14 @@ mixin _$TaskListController on TaskListControllerBase, Store {
     return _$fetchTasksAsyncAction.run(() => super.fetchTasks());
   }
 
+  late final _$deleteAsyncAction =
+      AsyncAction('TaskListControllerBase.delete', context: context);
+
+  @override
+  Future<void> delete(int id) {
+    return _$deleteAsyncAction.run(() => super.delete(id));
+  }
+
   late final _$logoutAsyncAction =
       AsyncAction('TaskListControllerBase.logout', context: context);
 

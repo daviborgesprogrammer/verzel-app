@@ -74,18 +74,18 @@ class _SignUpPageState extends State<SignUpPage> with Loader, Messages {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const LogoText(title: 'Sign up'),
+              const LogoText(title: 'Criar uma conta'),
               const SizedBox(height: 32),
               Text(
-                'Personal Information',
+                'Informações pessoais',
                 style: context.textStyles.textBold
                     .copyWith(fontSize: 20, color: ColorsApp.i.primary),
               ),
               const SizedBox(height: 16),
               Observer(
                 builder: (_) => VerzelTextField(
-                  title: 'Name',
-                  hint: 'Type your name',
+                  title: 'Nome',
+                  hint: 'Digite seu nome',
                   errorText: controller.nameError,
                   onChanged: controller.setName,
                   textInputAction: TextInputAction.next,
@@ -94,8 +94,8 @@ class _SignUpPageState extends State<SignUpPage> with Loader, Messages {
               const SizedBox(height: 8),
               Observer(
                 builder: (_) => VerzelTextField(
-                  title: 'Email',
-                  hint: 'Type your email',
+                  title: 'E-mail',
+                  hint: 'Digite seu e-mail',
                   errorText: controller.emailError,
                   onChanged: controller.setEmail,
                   keyboardType: TextInputType.emailAddress,
@@ -106,8 +106,8 @@ class _SignUpPageState extends State<SignUpPage> with Loader, Messages {
               Observer(
                 builder: (_) => DateField(
                   controllerText: dateEC,
-                  title: 'Birthdate',
-                  hint: 'Select a date',
+                  title: 'Data de nascimento',
+                  hint: 'Selecione a data',
                   isBirthdate: true,
                   initialDate: controller.birthdate,
                   onChanged: controller.setBirthdate,
@@ -118,7 +118,7 @@ class _SignUpPageState extends State<SignUpPage> with Loader, Messages {
               Observer(
                 builder: (_) => VerzelTextField(
                   title: 'CPF',
-                  hint: 'Type your CPF',
+                  hint: 'Digite seu CPF',
                   errorText: controller.cpfError,
                   onChanged: controller.setCPF,
                   keyboardType: TextInputType.number,
@@ -131,15 +131,15 @@ class _SignUpPageState extends State<SignUpPage> with Loader, Messages {
               ),
               const SizedBox(height: 24),
               Text(
-                'Address',
+                'Endereço',
                 style: context.textStyles.textBold
                     .copyWith(fontSize: 20, color: ColorsApp.i.primary),
               ),
               const SizedBox(height: 8),
               Observer(
                 builder: (_) => VerzelTextField(
-                  title: 'Zip code',
-                  hint: 'Type your zip code',
+                  title: 'CEP',
+                  hint: 'Digite seu CEP',
                   errorText: controller.zipError,
                   onChanged: (value) async {
                     await controller.setZip(value);
@@ -178,7 +178,7 @@ class _SignUpPageState extends State<SignUpPage> with Loader, Messages {
               const SizedBox(height: 8),
               Observer(
                 builder: (_) => VerzelTextField(
-                  title: 'Number',
+                  title: 'Numero',
                   hint: 'Nº',
                   errorText: controller.numberError,
                   onChanged: controller.setNumber,
@@ -196,7 +196,7 @@ class _SignUpPageState extends State<SignUpPage> with Loader, Messages {
                     onTap: controller.invalidSendPressed,
                     child: ElevatedButton(
                       onPressed: controller.sendPressed,
-                      child: const Text('REGISTER'),
+                      child: const Text('CADASTRAR'),
                     ),
                   ),
                 ),
@@ -209,14 +209,14 @@ class _SignUpPageState extends State<SignUpPage> with Loader, Messages {
                 child: Center(
                   child: RichText(
                     text: TextSpan(
-                      text: 'Already have an account? ',
+                      text: 'Já tem uma conta? ',
                       style: context.textStyles.textRegular.copyWith(
                         color: ColorsApp.i.textDark,
                         fontSize: 14,
                       ),
                       children: [
                         TextSpan(
-                          text: 'Log in',
+                          text: 'Entre',
                           style: context.textStyles.textBold.copyWith(
                             color: ColorsApp.i.primaryLight,
                             decoration: TextDecoration.underline,

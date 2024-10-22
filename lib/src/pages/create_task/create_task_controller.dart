@@ -60,7 +60,7 @@ abstract class CreateTaskControllerBase with Store {
     if (!_showErrors || titleValid) {
       return null;
     } else {
-      return 'Title required';
+      return 'Titulo obrigatório';
     }
   }
 
@@ -70,7 +70,7 @@ abstract class CreateTaskControllerBase with Store {
     if (!_showErrors || deliveryDateValid) {
       return null;
     } else {
-      return 'Delivery Date is required';
+      return 'Data de entrega é obrigatória';
     }
   }
 
@@ -87,12 +87,14 @@ abstract class CreateTaskControllerBase with Store {
   Future<void> registerTask() async {
     try {
       _status = CreateTaskStatus.loading;
+
       final task = Task(
         idUser: int.parse(userId ?? '0'),
         title: title,
         deliveryDate: deliveryDate,
         conclusionDate: conclusionDate,
-        status: TaskStatus.active,
+        status:
+            conclusionDate != null ? TaskStatus.concluded : TaskStatus.active,
       );
       await _taskService.save(task);
       _status = CreateTaskStatus.success;

@@ -12,6 +12,7 @@ enum TaskListStatus {
   initial,
   loading,
   loaded,
+  deleted,
   logout,
   error,
 }
@@ -48,6 +49,25 @@ abstract class TaskListControllerBase with Store {
       _status = TaskListStatus.loaded;
     } catch (e) {
       _errorMessage = 'Erro ao deslogar usuário';
+      _status = TaskListStatus.error;
+    }
+  }
+
+  @action
+  Future<void> delete(int id) async {
+    try {
+      _status = TaskListStatus.loading;
+      final int result = await _taskService.delete(id);
+      if (result != 1) {
+        _errorMessage = 'Erro ao excluir tarefa';
+
+        _status = TaskListStatus.error;
+      }
+
+      _status = TaskListStatus.deleted;
+    } catch (e) {
+      _errorMessage = 'Erro ao excluir tarefa';
+
       _status = TaskListStatus.error;
     }
   }
