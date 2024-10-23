@@ -47,3 +47,6 @@ Desenvolver um app para cadastro de tarefas.
   <img src="assets/readme/view_task.png" width="200px">
   
 </p>
+
+## Versões do README
+[Português BR](./README.md) | [Ingles US](./README-en.md)

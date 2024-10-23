@@ -3,7 +3,7 @@ sealed class VerzelConstants {
 }
 
 final class Images {
-  String logo = 'assets/images/logo_color.png';
+  String logo = 'assets/images/logo/logo_color.png';
   String profile = 'assets/images/profile.png';
 }
 
