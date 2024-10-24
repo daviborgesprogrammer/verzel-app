@@ -18,4 +18,9 @@ class TaskServiceImpl implements TaskService {
   Future<int> delete(int id) async {
     return DbTask.delete(id);
   }
+
+  @override
+  Future<int> conclude(Task task) async {
+    return DbTask.conclude(task);
+  }
 }

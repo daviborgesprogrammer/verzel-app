@@ -9,15 +9,15 @@ import '../../../models/task_model.dart';
 class TaskTile extends StatelessWidget {
   final Task task;
   final Function(int)? onDelete;
-  const TaskTile(this.task, {this.onDelete, super.key});
+  final Function(int)? onConclude;
+  const TaskTile(this.task, {this.onDelete, this.onConclude, super.key});
 
   @override
   Widget build(BuildContext context) {
     return Slidable(
       key: ValueKey(task.id),
       startActionPane: ActionPane(
-        motion: const ScrollMotion(),
-        dismissible: DismissiblePane(onDismissed: () {}),
+        motion: const DrawerMotion(),
         dragDismissible: false,
         children: [
           SlidableAction(
@@ -28,7 +28,7 @@ class TaskTile extends StatelessWidget {
                   title: 'Excluir tarefa',
                   description:
                       'Tem certeza de que deseja excluir esta tarefa? Esta ação não pode ser desfeita.',
-                  buttonText: 'Confirm',
+                  buttonText: 'Excluir',
                   dialogType: DialogType.confirm,
                   onTap: () {
                     if (onDelete != null) {
@@ -43,27 +43,53 @@ class TaskTile extends StatelessWidget {
             icon: Icons.delete,
             label: 'Excluir',
           ),
-          SlidableAction(
-            onPressed: (context) {},
-            backgroundColor: ColorsApp.i.edit,
-            foregroundColor: Colors.white,
-            icon: Icons.edit,
-            label: 'Editar',
-          ),
         ],
       ),
       endActionPane: ActionPane(
-        motion: const ScrollMotion(),
+        motion: const DrawerMotion(),
         dragDismissible: false,
-        children: [
-          SlidableAction(
-            onPressed: (context) {},
-            backgroundColor: ColorsApp.i.conclude,
-            foregroundColor: Colors.white,
-            icon: Icons.check_circle,
-            label: 'Concluir',
-          ),
-        ],
+        children: task.status == TaskStatus.active
+            ? [
+                SlidableAction(
+                  onPressed: (context) {},
+                  backgroundColor: ColorsApp.i.edit,
+                  foregroundColor: Colors.white,
+                  icon: Icons.edit,
+                  label: 'Editar',
+                ),
+                SlidableAction(
+                  onPressed: (context) async {
+                    showDialog(
+                      context: context,
+                      builder: (context) => DialogWidget(
+                        title: 'Concluir tarefa',
+                        description:
+                            'Tem certeza de que deseja concluir esta tarefa? Esta ação não pode ser desfeita.',
+                        buttonText: 'Concluir',
+                        dialogType: DialogType.confirm,
+                        onTap: () {
+                          if (onConclude != null) {
+                            onConclude!(task.id!);
+                          }
+                        },
+                      ),
+                    );
+                  },
+                  backgroundColor: ColorsApp.i.conclude,
+                  foregroundColor: Colors.white,
+                  icon: Icons.check_circle,
+                  label: 'Concluir',
+                ),
+              ]
+            : [
+                SlidableAction(
+                  onPressed: (context) {},
+                  backgroundColor: ColorsApp.i.edit,
+                  foregroundColor: Colors.white,
+                  icon: Icons.edit,
+                  label: 'Editar',
+                ),
+              ],
       ),
       child: GestureDetector(
         onTap: () async {},

@@ -28,7 +28,7 @@ class _SignUpPageState extends State<SignUpPage> with Loader, Messages {
   late final ReactionDisposer statusDisposer;
 
   final dateEC = TextEditingController();
-  var dateFormat = DateFormat('MM/dd/yyyy');
+  var dateFormat = DateFormat('dd/MM/yyyy');
 
   @override
   void initState() {

@@ -40,7 +40,7 @@ class _TaskListPageState extends State<TaskListPage> with Loader, Messages {
           case TaskListStatus.loaded:
             hideLoader();
             break;
-          case TaskListStatus.deleted:
+          case TaskListStatus.success:
             hideLoader();
             break;
           case TaskListStatus.logout:
@@ -129,6 +129,11 @@ class _TaskListPageState extends State<TaskListPage> with Loader, Messages {
             onDelete: (int value) async {
               final navigator = Navigator.of(context);
               await controller.delete(value);
+              navigator.pop();
+            },
+            onConclude: (int value) async {
+              final navigator = Navigator.of(context);
+              await controller.conclude(value);
               navigator.pop();
             },
           ),

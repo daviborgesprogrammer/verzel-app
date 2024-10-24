@@ -8,5 +8,7 @@ abstract interface class TaskService {
 
   Future<int> delete(int id);
 
+  Future<int> conclude(Task task);
+
   factory TaskService() => TaskServiceImpl();
 }

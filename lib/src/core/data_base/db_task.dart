@@ -57,4 +57,12 @@ final class DbTask {
       [TaskStatus.deleted.id, id],
     );
   }
+
+  static Future<int> conclude(Task task) async {
+    final db = await DBProvider.i.database;
+    return db.rawUpdate(
+      'UPDATE ${TaskFields.tableName} SET ${TaskFields.status} = ?, ${TaskFields.conclusionDate} = ? WHERE ${TaskFields.id} = ?',
+      [TaskStatus.concluded.id, task.conclusionDate, task.id],
+    );
+  }
 }

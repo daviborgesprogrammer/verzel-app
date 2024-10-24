@@ -21,8 +21,7 @@ class ColorsApp {
   Color get textWhite => const Color(0XFFECEFF1);
 
   Color get delete => const Color(0XFFFE4A49);
-  Color get edit => const Color(0XFF21B7CA);
-  Color get view => const Color(0XFF7BC043);
+  Color get edit => const Color(0XFF7BC043);
   Color get conclude => const Color(0XFF0392CF);
 }
 
