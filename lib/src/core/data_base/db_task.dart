@@ -52,10 +52,9 @@ final class DbTask {
 
   static Future<int> delete(int id) async {
     final db = await DBProvider.i.database;
-    return db.delete(
-      TaskFields.tableName,
-      where: '${TaskFields.id} = ?',
-      whereArgs: [id],
+    return db.rawUpdate(
+      'UPDATE ${TaskFields.tableName} SET ${TaskFields.status} = ? WHERE ${TaskFields.id} = ?',
+      [TaskStatus.deleted.id, id],
     );
   }
 }

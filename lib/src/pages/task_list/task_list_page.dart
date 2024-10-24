@@ -124,7 +124,14 @@ class _TaskListPageState extends State<TaskListPage> with Loader, Messages {
       body: Observer(
         builder: (_) => ListView.separated(
           itemCount: controller.taskCount,
-          itemBuilder: (_, index) => TaskTile(controller.tasks[index]),
+          itemBuilder: (_, index) => TaskTile(
+            controller.tasks[index],
+            onDelete: (int value) async {
+              final navigator = Navigator.of(context);
+              await controller.delete(value);
+              navigator.pop();
+            },
+          ),
           separatorBuilder: (context, index) => Divider(
             height: 1,
             color: ColorsApp.i.text,

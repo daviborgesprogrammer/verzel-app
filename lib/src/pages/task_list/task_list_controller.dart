@@ -60,11 +60,12 @@ abstract class TaskListControllerBase with Store {
       final int result = await _taskService.delete(id);
       if (result != 1) {
         _errorMessage = 'Erro ao excluir tarefa';
-
         _status = TaskListStatus.error;
+      } else {
+        _tasks.removeWhere((t) => t.id == id);
+        _tasks = [..._tasks];
+        _status = TaskListStatus.deleted;
       }
-
-      _status = TaskListStatus.deleted;
     } catch (e) {
       _errorMessage = 'Erro ao excluir tarefa';
 

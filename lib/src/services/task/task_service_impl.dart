@@ -9,8 +9,9 @@ class TaskServiceImpl implements TaskService {
   }
 
   @override
-  Future<List<Task>> readTaskByUser(int id) {
-    return DbTask.readByUser(id);
+  Future<List<Task>> readTaskByUser(int id) async {
+    final tasks = await DbTask.readByUser(id);
+    return tasks.where((t) => t.status != TaskStatus.deleted).toList();
   }
 
   @override

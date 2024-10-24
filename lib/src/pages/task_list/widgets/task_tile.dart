@@ -8,11 +8,11 @@ import '../../../models/task_model.dart';
 
 class TaskTile extends StatelessWidget {
   final Task task;
-  const TaskTile(this.task, {super.key});
+  final Function(int)? onDelete;
+  const TaskTile(this.task, {this.onDelete, super.key});
 
   @override
   Widget build(BuildContext context) {
-    final concluded = task.status == TaskStatus.concluded;
     return Slidable(
       key: ValueKey(task.id),
       startActionPane: ActionPane(
@@ -30,7 +30,11 @@ class TaskTile extends StatelessWidget {
                       'Tem certeza de que deseja excluir esta tarefa? Esta ação não pode ser desfeita.',
                   buttonText: 'Confirm',
                   dialogType: DialogType.confirm,
-                  onTap: () {},
+                  onTap: () {
+                    if (onDelete != null) {
+                      onDelete!(task.id!);
+                    }
+                  },
                 ),
               );
             },
@@ -66,7 +70,13 @@ class TaskTile extends StatelessWidget {
         child: Container(
           padding: const EdgeInsets.all(16),
           decoration: BoxDecoration(
-            color: concluded ? const Color(0XFFBDBDBD) : Colors.white,
+            color: switch (task.status) {
+              TaskStatus.active => Colors.white,
+              TaskStatus.concluded => const Color(0XFFBDBDBD),
+              TaskStatus.deleted => const Color(0XFFE57373),
+              _ => Colors.white,
+            },
+            // color: concluded ? const Color(0XFFBDBDBD) : Colors.white,
           ),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -75,9 +85,12 @@ class TaskTile extends StatelessWidget {
                 task.title ?? '',
                 style: context.textStyles.textBold.copyWith(
                   fontSize: 16,
-                  color: concluded
-                      ? const Color(0XFF4D4D4D)
-                      : ColorsApp.i.primaryDark,
+                  color: switch (task.status) {
+                    TaskStatus.active => ColorsApp.i.primaryDark,
+                    TaskStatus.concluded => const Color(0XFF4D4D4D),
+                    TaskStatus.deleted => const Color(0XFFB71C1C),
+                    _ => Colors.white,
+                  },
                 ),
               ),
               const SizedBox(height: 4),
@@ -87,8 +100,12 @@ class TaskTile extends StatelessWidget {
                   'Entrega:${task.deliveryDate}',
                   style: context.textStyles.textRegular.copyWith(
                     fontSize: 12,
-                    color:
-                        concluded ? const Color(0XFF8B8B8B) : ColorsApp.i.text,
+                    color: switch (task.status) {
+                      TaskStatus.active => ColorsApp.i.text,
+                      TaskStatus.concluded => const Color(0XFF8B8B8B),
+                      TaskStatus.deleted => const Color(0XFFD32F2F),
+                      _ => Colors.white,
+                    },
                   ),
                 ),
               ),
@@ -99,8 +116,12 @@ class TaskTile extends StatelessWidget {
                   'Conclusão:${task.conclusionDate}',
                   style: context.textStyles.textRegular.copyWith(
                     fontSize: 12,
-                    color:
-                        concluded ? const Color(0XFF8B8B8B) : ColorsApp.i.text,
+                    color: switch (task.status) {
+                      TaskStatus.active => ColorsApp.i.text,
+                      TaskStatus.concluded => const Color(0XFF8B8B8B),
+                      TaskStatus.deleted => const Color(0XFFD32F2F),
+                      _ => Colors.white,
+                    },
                   ),
                 ),
               ),
