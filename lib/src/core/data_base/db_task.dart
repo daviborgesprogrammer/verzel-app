@@ -62,7 +62,7 @@ final class DbTask {
     final db = await DBProvider.i.database;
     return db.rawUpdate(
       'UPDATE ${TaskFields.tableName} SET ${TaskFields.status} = ?, ${TaskFields.conclusionDate} = ? WHERE ${TaskFields.id} = ?',
-      [TaskStatus.concluded.id, task.conclusionDate, task.id],
+      [task.status?.id, task.conclusionDate, task.id],
     );
   }
 }

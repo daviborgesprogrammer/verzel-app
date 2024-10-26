@@ -27,7 +27,7 @@ Desenvolver um app para cadastro de tarefas.
   - [x] Deve exibir uma listagem de tarefas cadastradas;
   - [x] Deve possuir um botão para cadastro de novas tarefas;
   - [ ] Cada registro da listagem deve possuir as ações (editar, excluir, visualizar, concluir)
-  - [ ] A ação de concluir deve ser apenas para tarefas em aberto (não finalizadas), deve solicitar confirmação para concluir uma tarefa;
+  - [x] A ação de concluir deve ser apenas para tarefas em aberto (não finalizadas), deve solicitar confirmação para concluir uma tarefa;
   - [x] Deve solicitar uma confirmação para o usuário excluir uma tarefa;
   - [x] O cadastro de tarefa deve possuir os campos (nome, data de entrega, data de conclusão);
   - [x] Os campos nome e data de entrega são obrigatórios, os outros são opcionais;

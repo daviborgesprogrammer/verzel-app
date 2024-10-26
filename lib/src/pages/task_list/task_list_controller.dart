@@ -59,13 +59,13 @@ abstract class TaskListControllerBase with Store {
     try {
       _status = TaskListStatus.loading;
       final int result = await _taskService.delete(id);
-      if (result != 1) {
-        _errorMessage = 'Erro ao excluir tarefa';
-        _status = TaskListStatus.error;
-      } else {
+      if (result == 1) {
         _tasks.removeWhere((t) => t.id == id);
         _tasks = [..._tasks];
         _status = TaskListStatus.success;
+      } else {
+        _errorMessage = 'Erro ao excluir tarefa';
+        _status = TaskListStatus.error;
       }
     } catch (e) {
       _errorMessage = 'Erro ao excluir tarefa';
@@ -79,7 +79,22 @@ abstract class TaskListControllerBase with Store {
     try {
       _status = TaskListStatus.loading;
       task.conclusionDate = DateFormat('dd/MM/yyyy').format(DateTime.now());
+      task = task.copyWith(
+        conclusionDate: () => DateFormat('dd/MM/yyyy').format(DateTime.now()),
+        status: () => TaskStatus.concluded,
+      );
       final int result = await _taskService.conclude(task);
+      if (result == 1) {
+        final int index = _tasks.indexWhere((t) => t.id == task.id);
+        if (index != -1) {
+          _tasks[index] = task;
+        }
+        _tasks = [..._tasks];
+        _status = TaskListStatus.success;
+      } else {
+        _errorMessage = 'Erro ao concluir a tarefa';
+        _status = TaskListStatus.error;
+      }
       _status = TaskListStatus.success;
     } catch (e) {
       _errorMessage = 'Erro ao concluir tarefa';

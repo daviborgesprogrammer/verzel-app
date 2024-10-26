@@ -9,7 +9,7 @@ import '../../../models/task_model.dart';
 class TaskTile extends StatelessWidget {
   final Task task;
   final Function(int)? onDelete;
-  final Function(int)? onConclude;
+  final Function(Task)? onConclude;
   const TaskTile(this.task, {this.onDelete, this.onConclude, super.key});
 
   @override
@@ -69,7 +69,7 @@ class TaskTile extends StatelessWidget {
                         dialogType: DialogType.confirm,
                         onTap: () {
                           if (onConclude != null) {
-                            onConclude!(task.id!);
+                            onConclude!(task);
                           }
                         },
                       ),

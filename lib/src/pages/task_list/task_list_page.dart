@@ -8,6 +8,7 @@ import '../../core/ui/styles/colors_app.dart';
 import '../../core/ui/styles/text_style.dart';
 import '../../core/widgets/loader.dart';
 import '../../core/widgets/messages.dart';
+import '../../models/task_model.dart';
 import '../auth/auth_controller.dart';
 import 'task_list_controller.dart';
 import 'widgets/task_tile.dart';
@@ -131,7 +132,7 @@ class _TaskListPageState extends State<TaskListPage> with Loader, Messages {
               await controller.delete(value);
               navigator.pop();
             },
-            onConclude: (int value) async {
+            onConclude: (Task value) async {
               final navigator = Navigator.of(context);
               await controller.conclude(value);
               navigator.pop();
