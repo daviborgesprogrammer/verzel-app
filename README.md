@@ -40,6 +40,7 @@ Desenvolver um app para cadastro de tarefas.
 
 ## 🎨 Layout Proposto
 <p align="left">
+  <img src="assets/readme/splash.png" width="200px">
   <img src="assets/readme/sign_up.png" width="200px">
   <img src="assets/readme/sign_in.png" width="200px">
   <img src="assets/readme/task_list.png" width="200px">
