@@ -95,6 +95,14 @@ mixin _$TaskListController on TaskListControllerBase, Store {
     return _$deleteAsyncAction.run(() => super.delete(id));
   }
 
+  late final _$concludeAsyncAction =
+      AsyncAction('TaskListControllerBase.conclude', context: context);
+
+  @override
+  Future<void> conclude(Task task) {
+    return _$concludeAsyncAction.run(() => super.conclude(task));
+  }
+
   late final _$logoutAsyncAction =
       AsyncAction('TaskListControllerBase.logout', context: context);
 

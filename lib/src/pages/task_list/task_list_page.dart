@@ -10,6 +10,8 @@ import '../../core/widgets/loader.dart';
 import '../../core/widgets/messages.dart';
 import '../../models/task_model.dart';
 import '../auth/auth_controller.dart';
+import '../task_manager/task_manager_controller.dart';
+import '../task_manager/task_manager_page.dart';
 import 'task_list_controller.dart';
 import 'widgets/task_tile.dart';
 
@@ -100,8 +102,13 @@ class _TaskListPageState extends State<TaskListPage> with Loader, Messages {
         actions: [
           IconButton(
             onPressed: () async {
-              final result = await Navigator.of(context)
-                  .pushNamed('/create', arguments: '${_auth.user?.id}');
+              final result = await Navigator.of(context).push(
+                MaterialPageRoute(
+                  builder: (_) => const TaskManagerPage(
+                    states: TaskManagerState.creation,
+                  ),
+                ),
+              );
               if (result == true) {
                 await controller.fetchTasks();
               }
@@ -127,6 +134,7 @@ class _TaskListPageState extends State<TaskListPage> with Loader, Messages {
           itemCount: controller.taskCount,
           itemBuilder: (_, index) => TaskTile(
             controller.tasks[index],
+            controller: controller,
             onDelete: (int value) async {
               final navigator = Navigator.of(context);
               await controller.delete(value);

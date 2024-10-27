@@ -4,7 +4,7 @@ import 'package:flutter/services.dart';
 import '../ui/styles/colors_app.dart';
 import '../ui/styles/text_style.dart';
 
-class VerzelTextField extends StatelessWidget {
+class VerzelTextField extends StatefulWidget {
   final String title;
   final String? hint;
   final String? errorText;
@@ -16,6 +16,7 @@ class VerzelTextField extends StatelessWidget {
   final bool readOnly;
   final GestureTapCallback? onTap;
   final TextEditingController? controller;
+  final String? initialData;
   final bool obscure;
   const VerzelTextField({
     super.key,
@@ -31,7 +32,21 @@ class VerzelTextField extends StatelessWidget {
     this.onTap,
     this.controller,
     this.obscure = false,
+    this.initialData,
   });
+
+  @override
+  State<VerzelTextField> createState() => _VerzelTextFieldState();
+}
+
+class _VerzelTextFieldState extends State<VerzelTextField> {
+  @override
+  void initState() {
+    if (widget.initialData != null) {
+      widget.controller?.text = widget.initialData ?? '';
+    }
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -41,33 +56,33 @@ class VerzelTextField extends StatelessWidget {
         Padding(
           padding: const EdgeInsets.only(left: 4, bottom: 8),
           child: Text(
-            title,
+            widget.title,
             style: context.textStyles.textRegular
                 .copyWith(color: ColorsApp.i.textDark),
           ),
         ),
         TextFormField(
-          controller: controller,
-          readOnly: readOnly,
-          textInputAction: textInputAction,
-          keyboardType: keyboardType,
-          inputFormatters: inputFormatters,
-          onTap: onTap,
-          onChanged: onChanged,
+          controller: widget.controller,
+          readOnly: widget.readOnly,
+          textInputAction: widget.textInputAction,
+          keyboardType: widget.keyboardType,
+          inputFormatters: widget.inputFormatters,
+          onTap: widget.onTap,
+          onChanged: widget.onChanged,
           style: context.textStyles.textRegular.copyWith(
             fontSize: 12,
-            color: readOnly ? ColorsApp.i.text : ColorsApp.i.textDark,
+            color: widget.readOnly ? ColorsApp.i.text : ColorsApp.i.textDark,
           ),
           decoration: InputDecoration(
-            hintText: hint,
+            hintText: widget.hint,
             hintStyle: context.textStyles.textRegular
                 .copyWith(fontSize: 12, color: ColorsApp.i.text),
-            errorText: errorText,
-            suffixIcon: suffixIcon,
-            filled: readOnly,
+            errorText: widget.errorText,
+            suffixIcon: widget.suffixIcon,
+            filled: widget.readOnly,
             fillColor: Colors.grey.shade200,
           ),
-          obscureText: obscure,
+          obscureText: widget.obscure,
         ),
       ],
     );

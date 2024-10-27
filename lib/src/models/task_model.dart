@@ -1,12 +1,16 @@
 import 'package:flutter/material.dart';
 
 enum TaskStatus {
-  active(1),
-  concluded(2),
-  deleted(3);
+  active(1, 'Ativo'),
+  concluded(2, 'Concluído'),
+  deleted(3, 'Excluído');
 
   final int id;
-  const TaskStatus(this.id);
+  final String label;
+  const TaskStatus(
+    this.id,
+    this.label,
+  );
 
   static TaskStatus parse(int id) => values.firstWhere((i) => i.id == id);
 }
@@ -69,5 +73,10 @@ class Task {
           conclusionDate != null ? conclusionDate() : this.conclusionDate,
       status: status != null ? status() : this.status,
     );
+  }
+
+  @override
+  String toString() {
+    return 'Task{id=$id, idUser=$idUser, title=$title, deliveryDate=$deliveryDate, conclusionDate=$conclusionDate, status=$status}';
   }
 }

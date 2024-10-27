@@ -34,6 +34,15 @@ class _DateFieldState extends State<DateField> {
   DateTime selectedDate = DateTime.now();
   var dateFormat = DateFormat('dd/MM/yyyy');
   ValueNotifier<bool> showDatePicker = ValueNotifier<bool>(false);
+
+  @override
+  void initState() {
+    if (widget.initialDate != null) {
+      widget.controllerText.text = widget.initialDate ?? '';
+    }
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Column(

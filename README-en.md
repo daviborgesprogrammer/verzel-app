@@ -25,7 +25,7 @@ Develop an app for registering tasks.
 - After logging in:
   - [x] A list of registered tasks should be displayed;
   - [x] There should be a button to create new tasks;
-  - [ ] Each record in the list should have actions (edit, delete, view, complete)
+  - [x] Each record in the list should have actions (edit, delete, view, complete)
   - [x] The complete action should only be for open tasks (not completed), and should request confirmation to complete a task;
   - [x] It should request confirmation for the user to delete a task;
   - [x] Task creation should have the fields (name, due date, completion date);

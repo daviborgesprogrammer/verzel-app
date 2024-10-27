@@ -5,12 +5,22 @@ import '../../../core/ui/styles/colors_app.dart';
 import '../../../core/ui/styles/text_style.dart';
 import '../../../core/widgets/dialog_widget.dart';
 import '../../../models/task_model.dart';
+import '../../task_manager/task_manager_controller.dart';
+import '../../task_manager/task_manager_page.dart';
+import '../task_list_controller.dart';
 
 class TaskTile extends StatelessWidget {
   final Task task;
   final Function(int)? onDelete;
   final Function(Task)? onConclude;
-  const TaskTile(this.task, {this.onDelete, this.onConclude, super.key});
+  final TaskListController controller;
+  const TaskTile(
+    this.task, {
+    this.onDelete,
+    this.onConclude,
+    required this.controller,
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -51,7 +61,19 @@ class TaskTile extends StatelessWidget {
         children: task.status == TaskStatus.active
             ? [
                 SlidableAction(
-                  onPressed: (context) {},
+                  onPressed: (context) async {
+                    final result = await Navigator.of(context).push(
+                      MaterialPageRoute(
+                        builder: (_) => TaskManagerPage(
+                          states: TaskManagerState.editing,
+                          task: task,
+                        ),
+                      ),
+                    );
+                    if (result == true) {
+                      await controller.fetchTasks();
+                    }
+                  },
                   backgroundColor: ColorsApp.i.edit,
                   foregroundColor: Colors.white,
                   icon: Icons.edit,
@@ -83,7 +105,16 @@ class TaskTile extends StatelessWidget {
               ]
             : [
                 SlidableAction(
-                  onPressed: (context) {},
+                  onPressed: (context) async {
+                    Navigator.of(context).push(
+                      MaterialPageRoute(
+                        builder: (_) => TaskManagerPage(
+                          states: TaskManagerState.editing,
+                          task: task,
+                        ),
+                      ),
+                    );
+                  },
                   backgroundColor: ColorsApp.i.edit,
                   foregroundColor: Colors.white,
                   icon: Icons.edit,
@@ -92,7 +123,16 @@ class TaskTile extends StatelessWidget {
               ],
       ),
       child: GestureDetector(
-        onTap: () async {},
+        onTap: () async {
+          Navigator.of(context).push(
+            MaterialPageRoute(
+              builder: (_) => TaskManagerPage(
+                states: TaskManagerState.preview,
+                task: task,
+              ),
+            ),
+          );
+        },
         child: Container(
           padding: const EdgeInsets.all(16),
           decoration: BoxDecoration(
@@ -102,7 +142,6 @@ class TaskTile extends StatelessWidget {
               TaskStatus.deleted => const Color(0XFFE57373),
               _ => Colors.white,
             },
-            // color: concluded ? const Color(0XFFBDBDBD) : Colors.white,
           ),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,

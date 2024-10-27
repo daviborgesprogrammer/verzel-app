@@ -36,4 +36,6 @@ class DBProvider {
       },
     );
   }
+
+  Future close() async => _database?.close();
 }

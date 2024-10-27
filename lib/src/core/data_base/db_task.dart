@@ -65,4 +65,17 @@ final class DbTask {
       [task.status?.id, task.conclusionDate, task.id],
     );
   }
+
+  static Future<int> update(Task task) async {
+    final db = await DBProvider.i.database;
+    return db.rawUpdate(
+        'UPDATE ${TaskFields.tableName} SET ${TaskFields.title} = ?,${TaskFields.deliveryDate} = ?, ${TaskFields.conclusionDate} = ?, ${TaskFields.status} = ? WHERE ${TaskFields.id} = ?',
+        [
+          task.title,
+          task.deliveryDate,
+          task.conclusionDate,
+          task.status?.id,
+          task.id,
+        ]);
+  }
 }
