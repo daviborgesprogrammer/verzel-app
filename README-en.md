@@ -39,12 +39,12 @@ Develop an app for registering tasks.
 
 ## 🎨 Proposed Layout
 <p align="left">
+<img src="assets/readme/splash.png" width="200px">
   <img src="assets/readme/sign_up.png" width="200px">
-  <img src="assets/readme/sign_in.png" width="200px">
-  <img src="assets/readme/task_list.png" width="200px">
-  <img src="assets/readme/create_task.png" width="200px">
-  <img src="assets/readme/view_task.png" width="200px">
-  
+   <img src="assets/readme/sign_in.png" width="200px">
+ <img src="assets/readme/task_list.png" width="200px">
+  <img src="assets/readme/create task.png" width="200px">
+ <img src="assets/readme/view task.png" width="200px">
 </p>
 
 ## README versions
