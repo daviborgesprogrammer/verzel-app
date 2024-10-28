@@ -47,5 +47,5 @@ Develop an app for registering tasks.
  <img src="assets/readme/view task.png" width="200px">
 </p>
 
-## README versions
+## Readme versions
 [Português BR](./README.md) | [Ingles US](./README-en.md)
